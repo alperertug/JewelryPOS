@@ -1,0 +1,171 @@
+﻿<Window x:Class="JewelryPOS.App.Views.AddProductView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Yeni Ürün Ekle" Height="850" Width="600"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#fafafa">
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Başlık -->
+            <RowDefinition Height="Auto"/>
+            <!-- Ürün Adı -->
+            <RowDefinition Height="Auto"/>
+            <!-- Barkod -->
+            <RowDefinition Height="Auto"/>
+            <!-- Fiyat -->
+            <RowDefinition Height="Auto"/>
+            <!-- İndirimli Fiyat -->
+            <RowDefinition Height="Auto"/>
+            <!-- Stok -->
+            <RowDefinition Height="Auto"/>
+            <!-- Karat -->
+            <RowDefinition Height="Auto"/>
+            <!-- Ağırlık -->
+            <RowDefinition Height="Auto"/>
+            <!-- Kategori -->
+            <RowDefinition Height="Auto"/>
+            <!-- Açıklama -->
+            <RowDefinition Height="60"/>
+            <!-- Butonlar için sabit yükseklik -->
+        </Grid.RowDefinitions>
+
+        <!-- Başlık -->
+        <TextBlock Grid.Row="0" Text="Yeni Ürün Ekle" FontSize="24" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="0,0,0,30" FontFamily="Segoe UI"/>
+
+        <!-- Ürün Adı -->
+        <Grid Grid.Row="1" Margin="0,10,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <Label Content="Ürün Adı:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
+                <TextBlock Text="*" Foreground="Red" VerticalAlignment="Center" Margin="5,0,0,0"/>
+            </StackPanel>
+            <TextBox Grid.Column="1" Width="300" Height="40" 
+                     Text="{Binding NewProduct.Name, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource MaterialTextBox}"/>
+        </Grid>
+
+        <!-- Barkod -->
+        <Grid Grid.Row="2" Margin="0,10,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Barkod:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
+            <TextBox Grid.Column="1" Width="300" Height="40" 
+                     Text="{Binding NewProduct.Barcode, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource MaterialTextBox}"/>
+        </Grid>
+
+        <!-- Fiyat -->
+        <Grid Grid.Row="3" Margin="0,10,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <Label Content="Fiyat:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
+                <TextBlock Text="*" Foreground="Red" VerticalAlignment="Center" Margin="5,0,0,0"/>
+            </StackPanel>
+            <TextBox Grid.Column="1" Width="300" Height="40" 
+                     Text="{Binding NewProduct.Price, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
+                     Style="{StaticResource MaterialTextBox}"/>
+        </Grid>
+
+        <!-- İndirimli Fiyat -->
+        <Grid Grid.Row="4" Margin="0,10,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="İndirimli Fiyat:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
+            <TextBox Grid.Column="1" Width="300" Height="40" 
+                     Text="{Binding NewProduct.DiscountPrice, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
+                     Style="{StaticResource MaterialTextBox}"/>
+        </Grid>
+
+        <!-- Stok -->
+        <Grid Grid.Row="5" Margin="0,10,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <Label Content="Stok:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
+                <TextBlock Text="*" Foreground="Red" VerticalAlignment="Center" Margin="5,0,0,0"/>
+            </StackPanel>
+            <TextBox Grid.Column="1" Width="300" Height="40" 
+                     Text="{Binding NewProduct.Stock, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource MaterialTextBox}"/>
+        </Grid>
+
+        <!-- Karat -->
+        <Grid Grid.Row="6" Margin="0,10,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Karat:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
+            <TextBox Grid.Column="1" Width="300" Height="40" 
+                     Text="{Binding NewProduct.Karat, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource MaterialTextBox}"/>
+        </Grid>
+
+        <!-- Ağırlık -->
+        <Grid Grid.Row="7" Margin="0,10,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Ağırlık:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
+            <TextBox Grid.Column="1" Width="300" Height="40" 
+                     Text="{Binding NewProduct.Weight, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource MaterialTextBox}"/>
+        </Grid>
+
+        <!-- Kategori Seçimi -->
+        <Grid Grid.Row="8" Margin="0,10,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <Label Content="Kategori:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
+                <TextBlock Text="*" Foreground="Red" VerticalAlignment="Center" Margin="5,0,0,0"/>
+            </StackPanel>
+            <ComboBox Grid.Column="1" Width="300" Height="40" 
+                      ItemsSource="{Binding Categories}" 
+                      SelectedItem="{Binding SelectedCategory}" 
+                      DisplayMemberPath="Name" 
+                      Style="{StaticResource MaterialComboBox}"/>
+        </Grid>
+
+        <!-- Açıklama -->
+        <Grid Grid.Row="9" Margin="0,10,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Açıklama:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
+            <TextBox Grid.Column="1" Width="300" Height="80" 
+                     Text="{Binding NewProduct.Description, UpdateSourceTrigger=PropertyChanged}" 
+                     AcceptsReturn="True" 
+                     Style="{StaticResource MaterialTextBox}"/>
+        </Grid>
+
+        <!-- Butonlar -->
+        <StackPanel Grid.Row="10" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,5,-30">
+            <Button Content="İptal" Width="140" Height="50" Margin="0,0,10,0" 
+                    Command="{Binding CancelCommand}" 
+                    Style="{StaticResource CancelButtonStyle}"/>
+            <Button Content="Kaydet" Width="140" Height="50" 
+                    Command="{Binding SaveProductCommand}" 
+                    Style="{StaticResource SaveButtonStyle}"/>
+        </StackPanel>
+    </Grid>
+</Window>

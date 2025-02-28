@@ -1,0 +1,55 @@
+﻿<Window x:Class="JewelryPOS.App.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JewelryPOS.App.ViewModels"
+        mc:Ignorable="d"
+        Title="Jewelry POS - Giriş" Height="611" Width="800" 
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid Background="#FAFAFA">
+        <!-- Başlık -->
+        <TextBlock Text="Jewelry POS" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                   Margin="0,60,0,0" Style="{StaticResource FormHeaderStyle}"/>
+
+        <!-- Login Form -->
+        <Border HorizontalAlignment="Center" VerticalAlignment="Center" Width="350" Background="White" 
+                Padding="30" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="10">
+            <Border.Effect>
+                <DropShadowEffect Color="#B0B0B0" Direction="270" ShadowDepth="2" Opacity="0.3"/>
+            </Border.Effect>
+            <StackPanel>
+                <!-- Kullanıcı Adı -->
+                <TextBlock Text="Kullanıcı Adı" Style="{StaticResource FormLabelStyle}" Margin="0,0,0,5"/>
+                <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" 
+                         Width="290" Height="40" Margin="0,10,0,15" 
+                         Style="{StaticResource MaterialTextBox}"/>
+
+                <!-- Şifre -->
+                <TextBlock Text="Şifre" Style="{StaticResource FormLabelStyle}" Margin="0,0,0,5"/>
+                <PasswordBox x:Name="PasswordBox" Width="290" Height="40" Margin="0,10,0,15" 
+                             Style="{StaticResource MaterialPasswordBox}"
+                             PasswordChanged="PasswordBox_PasswordChanged"/>
+
+                <!-- Giriş Butonu -->
+                <Button Width="290" Height="40" Margin="0,20,0,20" 
+                        Command="{Binding LoginCommand}" 
+                        Style="{StaticResource LoginButtonStyle}"/>
+
+                <!-- Şifremi Unuttum ve Kayıt Ol Linkleri -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <TextBlock Text="Şifremi Unuttum?" Margin="0,0,20,0" Style="{StaticResource LinkTextStyle}">
+                        <TextBlock.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" Command="{Binding OpenForgotPasswordCommand}"/>
+                        </TextBlock.InputBindings>
+                    </TextBlock>
+                    <TextBlock Text="Kayıt Ol" Style="{StaticResource LinkTextStyle}">
+                        <TextBlock.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" Command="{Binding OpenRegisterWindowCommand}"/>
+                        </TextBlock.InputBindings>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
