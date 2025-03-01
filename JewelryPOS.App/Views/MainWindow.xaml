@@ -7,75 +7,70 @@
         Title="Jewelry POS"
         WindowState="Maximized"
         MinWidth="1280" MinHeight="720"
-        Background="#f4f4f9">
-
-    <Window.Resources>
-        <!-- Menü Buton Stili -->
-        <Style x:Key="MenuButton" TargetType="Button">
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" Padding="10">
-                            <ContentPresenter HorizontalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
-
+        Background="#FAFAFA">
     <Grid>
         <!-- Sol Menü -->
-        <Border Background="#2C3E50" Width="200" HorizontalAlignment="Left">
+        <Border Background="#2C3E50" Width="220" HorizontalAlignment="Left" CornerRadius="0,10,10,0">
+            <Border.Effect>
+                <DropShadowEffect Color="#B0B0B0" Direction="0" ShadowDepth="2" Opacity="0.3"/>
+            </Border.Effect>
             <StackPanel>
-                <TextBlock Text="Jewelry POS" Foreground="White" FontSize="20" 
-                           FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,20"/>
+                <TextBlock Text="Jewelry POS" Style="{StaticResource FormHeaderStyle}" 
+                           Foreground="White" HorizontalAlignment="Center" Margin="0,20,0,30"/>
 
-                <Button Content="Ürünler" Style="{StaticResource MenuButton}" Command="{Binding OpenProductsCommand}"/>
-                <Button Content="Satışlar" Style="{StaticResource MenuButton}" Command="{Binding OpenSalesCommand}"/>
-                <Button Content="Ayarlar" Style="{StaticResource MenuButton}" Command="{Binding OpenSettingsCommand}"/>
+                <Button Style="{StaticResource MenuButtonStyle}" Command="{Binding OpenProductsCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="🛒" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBlock Text="Ürünler" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource MenuButtonStyle}" Command="{Binding OpenSalesCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="💰" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBlock Text="Satışlar" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource MenuButtonStyle}" Command="{Binding OpenSettingsCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="⚙️" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBlock Text="Ayarlar" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </Border>
 
         <!-- Üst Bar -->
-        <Border Background="White" Height="60" VerticalAlignment="Top" Padding="10">
+        <Border Background="White" Height="60" VerticalAlignment="Top" Padding="20,10" Margin="220,0,0,0">
+            <Border.Effect>
+                <DropShadowEffect Color="#B0B0B0" Direction="270" ShadowDepth="2" Opacity="0.2"/>
+            </Border.Effect>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <!-- Sol taraf için genişlik -->
-                    <ColumnDefinition Width="Auto" />
-                    <!-- Sağ taraf için otomatik genişlik -->
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <!-- Sol Taraf: Ana Sayfa Başlığı -->
-                <TextBlock Text="Ana Sayfa" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0,0,0" Grid.Column="0"/>
+                <TextBlock Text="Ana Sayfa" FontSize="18" FontWeight="Bold" FontFamily="Segoe UI" 
+                           Foreground="#333333" VerticalAlignment="Center" Grid.Column="0"/>
 
                 <!-- Sağ Taraf: Kullanıcı Bilgileri ve Butonlar -->
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="1" Margin="0,0,20,0">
-                    <TextBlock Text="{Binding LoggedInUser}" FontSize="14" Foreground="Black" VerticalAlignment="Center" 
-                       FontWeight="SemiBold" Margin="0,0,10,0"/>
-
-                    <Button Content="Kullanıcı Değiştir" Background="#90CAF9" Foreground="White" 
-                    Width="120" Height="30" Command="{Binding SwitchUserCommand}" 
-                    Margin="0,0,10,0" Cursor="Hand"/>
-
-                    <Button Content="Çıkış Yap" Background="#E57373" Foreground="White" 
-                    Width="100" Height="30" Command="{Binding LogoutCommand}" 
-                    Cursor="Hand"/>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="1">
+                    <TextBlock Text="{Binding LoggedInUser}" FontSize="14" Foreground="#333333" 
+                               FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                    <Button Command="{Binding SwitchUserCommand}" Style="{StaticResource SwitchUserButtonStyle}" 
+                            Margin="0,0,10,0"/>
+                    <Button Command="{Binding LogoutCommand}" Style="{StaticResource LogoutButtonStyle}"/>
                 </StackPanel>
             </Grid>
         </Border>
 
-
         <!-- Ana İçerik Alanı -->
-        <ContentControl Content="{Binding CurrentView}" Margin="210,70,10,10"/>
+        <Border Margin="230,70,20,20" Background="#FAFAFA" CornerRadius="10" Padding="10">
+            <Border.Effect>
+                <DropShadowEffect Color="#B0B0B0" Direction="270" ShadowDepth="2" Opacity="0.2"/>
+            </Border.Effect>
+            <ContentControl Content="{Binding CurrentView}"/>
+        </Border>
     </Grid>
 </Window>

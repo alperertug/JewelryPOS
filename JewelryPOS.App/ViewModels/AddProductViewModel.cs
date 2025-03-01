@@ -50,7 +50,7 @@ namespace JewelryPOS.App.ViewModels
         {
             try
             {
-                var categories = await _categoryService.GetAllCategoriesAsync();
+                var categories = await _categoryService.GetAllCategoriesForComboBoxesAsync();
                 Categories.Clear();
 
                 var dummyCategory = new Category { Id = Guid.Empty, Name = "Lütfen Kategori Seçiniz" };
@@ -58,10 +58,7 @@ namespace JewelryPOS.App.ViewModels
 
                 foreach (var category in categories)
                 {
-                    if (category.IsActive)
-                    {
-                        Categories.Add(category);
-                    }
+                    Categories.Add(category);
                 }
 
                 SelectedCategory = dummyCategory;

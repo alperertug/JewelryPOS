@@ -1,6 +1,7 @@
 ﻿using JewelryPOS.App.Data.Interface;
 using JewelryPOS.App.Models;
 using JewelryPOS.App.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace JewelryPOS.App.Services
 {
@@ -16,6 +17,25 @@ namespace JewelryPOS.App.Services
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
         {
             return await _unitOfWork.Repository<Category>().GetAllAsync();
+        }
+
+        public async Task<IEnumerable<Category>> GetAllCategoriesWithCreatedByAsync()
+        {
+            return await _unitOfWork.Repository<Category>()
+                .GetQuery()
+                .AsNoTracking()
+                .Include(c => c.CreatedBy)
+                .Where(i => i.IsActive == true)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Category>> GetAllCategoriesForComboBoxesAsync()
+        {
+            return await _unitOfWork.Repository<Category>()
+                .GetQuery()
+                .AsNoTracking()
+                .Where(i => i.IsActive == true)
+                .ToListAsync();
         }
 
         public async Task<Category> GetCategoryByIdAsync(Guid id)

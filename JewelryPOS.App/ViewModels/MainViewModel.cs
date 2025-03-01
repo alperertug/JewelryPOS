@@ -46,7 +46,7 @@ namespace JewelryPOS.App.ViewModels
 
             OpenProductsCommand = new RelayCommand<object>((_) => CurrentView = App.ServiceProvider.GetRequiredService<ProductsView>());
             OpenSalesCommand = new RelayCommand<object>((_) => CurrentView = new SalesViewModel());
-            OpenSettingsCommand = new RelayCommand<object>((_) => CurrentView = new SettingsViewModel());
+            OpenSettingsCommand = new RelayCommand<object>((_) => CurrentView = new SettingsWindow());
             LogoutCommand = new RelayCommand<object>((_) => Logout());
             SwitchUserCommand = new RelayCommand<object>((_) => SwitchUser());
 

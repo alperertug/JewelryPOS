@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -55,18 +56,15 @@ namespace JewelryPOS.App.ViewModels
             LoadCategoriesAsync();
         }
 
-        private void LoadCategoriesAsync()
+        private async Task LoadCategoriesAsync()
         {
             try
             {
-                var categories = _categoryService.GetQuery().AsNoTracking().Include(c => c.CreatedBy).ToList();
+                var categories = await _categoryService.GetAllCategoriesWithCreatedByAsync();
                 Categories.Clear();
                 foreach (var category in categories)
                 {
-                    if (category.IsActive)
-                    {
-                        Categories.Add(category);
-                    }
+                    Categories.Add(category);
                 }
             }
             catch (Exception ex)
@@ -102,7 +100,9 @@ namespace JewelryPOS.App.ViewModels
 
             try
             {
-                await _categoryService.UpdateCategoryAsync(SelectedCategory);
+                var trackedCategory = await _categoryService.GetCategoryByIdAsync(SelectedCategory.Id);
+                trackedCategory.Name = SelectedCategory.Name;
+                await _categoryService.UpdateCategoryAsync(trackedCategory);
                 MessageBox.Show("Kategori güncellendi.", "Başarılı", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
@@ -120,9 +120,17 @@ namespace JewelryPOS.App.ViewModels
 
             try
             {
-                SelectedCategory.IsActive = false;
-                await _categoryService.UpdateCategoryAsync(SelectedCategory);
-                Categories.Remove(SelectedCategory);
+                var trackedCategory = await _categoryService.GetCategoryByIdAsync(SelectedCategory.Id);
+                if (trackedCategory != null)
+                {
+                    trackedCategory.IsActive = false;
+                    await _categoryService.UpdateCategoryAsync(trackedCategory);
+                    Categories.Remove(SelectedCategory);
+                }
+                else
+                {
+                    MessageBox.Show("Kategori bulunamadı.", "Hata", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             catch (Exception ex)
             {

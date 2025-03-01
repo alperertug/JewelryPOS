@@ -50,14 +50,11 @@ namespace JewelryPOS.App.ViewModels
         {
             try
             {
-                var categories = await _categoryService.GetAllCategoriesAsync();
+                var categories = await _categoryService.GetAllCategoriesForComboBoxesAsync();
                 Categories.Clear();
                 foreach (var category in categories)
                 {
-                    if (category.IsActive)
-                    {
-                        Categories.Add(category);
-                    }
+                    Categories.Add(category);
                 }
                 SelectedCategory = Categories.FirstOrDefault(c => c.Id == CurrentProduct.CategoryId);
             }
@@ -77,7 +74,20 @@ namespace JewelryPOS.App.ViewModels
 
             try
             {
-                await _productService.UpdateProductAsync(CurrentProduct);
+                var trackedProduct = await _productService.GetProductByIdAsync(CurrentProduct.Id);
+                if (trackedProduct != null)
+                {
+                    trackedProduct.Name = CurrentProduct.Name;
+                    trackedProduct.Price = CurrentProduct.Price;
+                    trackedProduct.DiscountPrice = CurrentProduct.DiscountPrice;
+                    trackedProduct.Stock = CurrentProduct.Stock;
+                    trackedProduct.Karat = CurrentProduct.Karat;
+                    trackedProduct.Weight = CurrentProduct.Weight;
+                    trackedProduct.Description = CurrentProduct.Description;
+                    trackedProduct.Barcode = CurrentProduct.Barcode;
+                    trackedProduct.CategoryId = SelectedCategory.Id;
+                    await _productService.UpdateProductAsync(trackedProduct);
+                }
                 MessageBox.Show("Ürün başarıyla güncellendi!", "Bilgi", MessageBoxButton.OK, MessageBoxImage.Information);
                 CloseWindow();
             }

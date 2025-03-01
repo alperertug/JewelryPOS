@@ -1,6 +1,7 @@
 ﻿using JewelryPOS.App.Models;
 using JewelryPOS.App.Services.Interfaces;
 using JewelryPOS.App.Data.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace JewelryPOS.App.Services
 {
@@ -16,6 +17,25 @@ namespace JewelryPOS.App.Services
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
             return await _unitOfWork.Repository<Product>().GetAllAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetAllProductsAsNoTrackingAsync()
+        {
+            return await _unitOfWork.Repository<Product>()
+                .GetQuery()
+                .AsNoTracking()
+                .Where(i => i.IsActive == true)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetAllProductsWithCategoryAsNoTrackingAsync()
+        {
+            return await _unitOfWork.Repository<Product>()
+                .GetQuery()
+                .AsNoTracking()
+                .Include(c => c.Category)
+                .Where(i => i.IsActive == true)
+                .ToListAsync();
         }
 
         public async Task<Product> GetProductByIdAsync(Guid id)

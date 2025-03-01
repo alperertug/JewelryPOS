@@ -43,18 +43,15 @@ namespace JewelryPOS.App.ViewModels
             LoadProducts();
         }
 
-        private void LoadProducts()
+        private async void LoadProducts()
         {
             try
             {
-                var products = _productService.GetQuery().Include(p => p.Category).ToList();
+                var products = await _productService.GetAllProductsWithCategoryAsNoTrackingAsync();
                 Products.Clear();
                 foreach (var product in products)
                 {
-                    if (product.IsActive)
-                    {
-                        Products.Add(product);
-                    }
+                    Products.Add(product);
                 }
             }
             catch (Exception ex)

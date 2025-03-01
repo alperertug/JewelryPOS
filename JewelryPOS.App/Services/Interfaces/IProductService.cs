@@ -5,6 +5,8 @@ namespace JewelryPOS.App.Services.Interfaces
     public interface IProductService
     {
         Task<IEnumerable<Product>> GetAllProductsAsync();
+        Task<IEnumerable<Product>> GetAllProductsAsNoTrackingAsync();
+        Task<IEnumerable<Product>> GetAllProductsWithCategoryAsNoTrackingAsync();
         Task<Product> GetProductByIdAsync(Guid id);
         IQueryable<Product> GetQuery();
         Task AddProductAsync(Product product);
