@@ -43,6 +43,10 @@ namespace JewelryPOS.App.Services
             return await _unitOfWork.Repository<Product>().GetByIdAsync(id);
         }
 
+        public async Task<Product> GetProductByBarcodeAsync(string barcode)
+        {
+            return await _unitOfWork.Repository<Product>().FindSingularAsync(p => p.Barcode == barcode);
+        }
         public IQueryable<Product> GetQuery()
         {
             return _unitOfWork.Repository<Product>().GetQuery();

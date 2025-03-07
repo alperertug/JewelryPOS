@@ -30,6 +30,11 @@ namespace JewelryPOS.App.Data.Concrete
             return await _dbSet.Where(predicate).ToListAsync();
         }
 
+        public async Task<T> FindSingularAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbSet.Where(predicate).FirstOrDefaultAsync();
+        }
+
         public async Task<T> FindByUsernameAsync(Expression<Func<T, bool>> predicate)
         {
             return await _dbSet.Where(predicate).FirstOrDefaultAsync();

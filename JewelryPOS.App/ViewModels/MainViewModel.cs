@@ -11,7 +11,10 @@ namespace JewelryPOS.App.ViewModels
     {
         private readonly IProductService _productService;
         private string _loggedInUser;
+        private CustomerView _customerView;
+        private readonly CustomerViewModel _customerViewModel;
 
+        public ICommand OpenHomeCommand { get; }
         public ICommand OpenProductsCommand { get; }
         public ICommand OpenSalesCommand { get; }
         public ICommand OpenSettingsCommand { get; }
@@ -43,7 +46,9 @@ namespace JewelryPOS.App.ViewModels
         public MainViewModel(IProductService productService)
         {
             _productService = productService;
+            _customerViewModel = new CustomerViewModel();
 
+            OpenHomeCommand = new RelayCommand<object>((_) => CurrentView = new HomeView(_customerViewModel));
             OpenProductsCommand = new RelayCommand<object>((_) => CurrentView = App.ServiceProvider.GetRequiredService<ProductsView>());
             OpenSalesCommand = new RelayCommand<object>((_) => CurrentView = new SalesViewModel());
             OpenSettingsCommand = new RelayCommand<object>((_) => CurrentView = new SettingsWindow());
@@ -53,7 +58,9 @@ namespace JewelryPOS.App.ViewModels
             UpdateLoggedInUser();
             UserSession.Instance.UserChanged += (s, e) => UpdateLoggedInUser();
 
-            CurrentView = App.ServiceProvider.GetRequiredService<ProductsView>();
+            CurrentView = new HomeView(_customerViewModel);
+
+            OpenCustomerViewOnSecondaryScreen();
         }
 
         private void UpdateLoggedInUser()
@@ -71,10 +78,34 @@ namespace JewelryPOS.App.ViewModels
         {
             UserSession.Instance.ClearUser();
 
+            // customer view'ı kapatıyor ama mainview homeview falan tekrar login olunduğunda aynı değerler duruyor. tam olarak yok edip öyle kapatmak gerekiyor her şeyi.
+
             var loginWindow = new LoginWindow();
             loginWindow.Show();
 
+            Application.Current.Windows.OfType<CustomerView>().FirstOrDefault()?.Close();
             Application.Current.Windows.OfType<MainWindow>().FirstOrDefault()?.Close();
         }
+
+        private void OpenCustomerViewOnSecondaryScreen()
+        {
+            var monitors = MonitorHelper.GetMonitors();
+            if (monitors.Count > 1 && monitors.Any(m => !m.Primary))
+            {
+                var secondary = monitors.First(m => !m.Primary);
+                var customerView = new CustomerView();
+                customerView.Left = secondary.WorkArea.Left;
+                customerView.Top = secondary.WorkArea.Top;
+                customerView.Width = secondary.WorkArea.Width;
+                customerView.Height = secondary.WorkArea.Height;
+                customerView.Show();
+            }
+            else
+            {
+                MessageBox.Show("İkincil ekran bulunamadı.", "Bilgi", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+
     }
 }

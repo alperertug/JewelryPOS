@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JewelryPOS.App.ViewModels
 {
-    class SalesViewModel
+    public class SalesViewModel : BaseViewModel
     {
     }
 }

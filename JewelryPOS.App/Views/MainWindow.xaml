@@ -18,6 +18,12 @@
                 <TextBlock Text="Jewelry POS" Style="{StaticResource FormHeaderStyle}" 
                            Foreground="White" HorizontalAlignment="Center" Margin="0,20,0,30"/>
 
+                <Button Style="{StaticResource MenuButtonStyle}" Command="{Binding OpenHomeCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="🏚" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBlock Text="Ana Sayfa" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
                 <Button Style="{StaticResource MenuButtonStyle}" Command="{Binding OpenProductsCommand}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="🛒" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/>
@@ -51,13 +57,13 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Sol Taraf: Ana Sayfa Başlığı -->
-                <TextBlock Text="Ana Sayfa" FontSize="18" FontWeight="Bold" FontFamily="Segoe UI" 
+                <TextBlock Text="Kullanıcı: " FontSize="18" FontWeight="Bold" FontFamily="Segoe UI" 
                            Foreground="#333333" VerticalAlignment="Center" Grid.Column="0"/>
+                <TextBlock Text="{Binding LoggedInUser}" FontSize="18" FontWeight="Bold" FontFamily="Segoe UI" 
+                           Foreground="#333333" VerticalAlignment="Center" Grid.Column="0" Padding="80"/>
 
                 <!-- Sağ Taraf: Kullanıcı Bilgileri ve Butonlar -->
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="1">
-                    <TextBlock Text="{Binding LoggedInUser}" FontSize="14" Foreground="#333333" 
-                               FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,20,0"/>
                     <Button Command="{Binding SwitchUserCommand}" Style="{StaticResource SwitchUserButtonStyle}" 
                             Margin="0,0,10,0"/>
                     <Button Command="{Binding LogoutCommand}" Style="{StaticResource LogoutButtonStyle}"/>

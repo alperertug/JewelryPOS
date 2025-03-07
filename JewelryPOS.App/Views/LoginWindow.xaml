@@ -22,12 +22,12 @@
                 <!-- Kullanıcı Adı -->
                 <TextBlock Text="Kullanıcı Adı" Style="{StaticResource FormLabelStyle}" Margin="0,0,0,5"/>
                 <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" 
-                         Width="290" Height="40" Margin="0,10,0,15" 
+                         Width="290" Height="50" Margin="0,10,0,15" 
                          Style="{StaticResource MaterialTextBox}"/>
 
                 <!-- Şifre -->
                 <TextBlock Text="Şifre" Style="{StaticResource FormLabelStyle}" Margin="0,0,0,5"/>
-                <PasswordBox x:Name="PasswordBox" Width="290" Height="40" Margin="0,10,0,15" 
+                <PasswordBox x:Name="PasswordBox" Width="290" Height="50" Margin="0,10,0,15" 
                              Style="{StaticResource MaterialPasswordBox}"
                              PasswordChanged="PasswordBox_PasswordChanged"/>
 

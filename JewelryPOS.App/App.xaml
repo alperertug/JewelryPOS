@@ -7,6 +7,7 @@
         <ResourceDictionary>
             <!-- Converter Tanımlaması -->
             <converters:TypeToVisibilityConverter x:Key="TypeToVisibilityConverter"/>
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
             
             <!-- Temel Button Stil -->
             <Style TargetType="Button" x:Key="ActionButtonStyle">

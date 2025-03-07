@@ -60,6 +60,8 @@ namespace JewelryPOS.App
             services.AddScoped<ManageCategoriesViewModel>();
             services.AddScoped<EditProductViewModel>();
             services.AddScoped<SettingsViewModel>();
+            services.AddScoped<HomeViewModel>();
+            services.AddScoped<CustomerViewModel>();
 
             // **Views**
             services.AddScoped<LoginWindow>();
@@ -70,6 +72,8 @@ namespace JewelryPOS.App
             services.AddScoped<EditProductView>();
             services.AddScoped<ManageCategoriesView>();
             services.AddScoped<SettingsWindow>();
+            services.AddScoped<HomeView>();
+            services.AddScoped<CustomerView>();
         }
     }
 }

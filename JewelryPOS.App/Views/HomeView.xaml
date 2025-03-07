@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="JewelryPOS.App.Views.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Background="#FAFAFA">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Barkod Giriş Alanı -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+            <TextBox Text="{Binding Barcode, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource MaterialTextBox}" Width="200" Margin="0,0,10,0"/>
+            <Button Command="{Binding ReadBarcodeCommand}" Style="{StaticResource ActionButtonStyle}"
+                    Content="Barkodu Oku" Background="#4CAF50" Foreground="White"/>
+        </StackPanel>
+
+        <!-- Ürün Detayları ve İndirim -->
+        <Border Grid.Row="1" Background="#FFFFFF" CornerRadius="10" Padding="20"
+                Visibility="{Binding SelectedProduct, Converter={StaticResource NullToVisibilityConverter}}">
+            <Border.Effect>
+                <DropShadowEffect Color="#B0B0B0" Direction="270" ShadowDepth="2" Opacity="0.2"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Ürün Bilgileri -->
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="{Binding SelectedProduct.Name}" Style="{StaticResource FormHeaderStyle}"/>
+                    <TextBlock Text="{Binding SelectedProduct.Price, StringFormat='Orijinal Fiyat: {0:C}'}" 
+                               FontSize="16" Foreground="#333333" Margin="0,10,0,0"/>
+                    <TextBlock Text="{Binding SelectedProduct.DiscountPrice, StringFormat='İndirimli Fiyat: {0:C}'}" 
+                               FontSize="16" Foreground="#4CAF50" Margin="0,5,0,0" 
+                               Visibility="{Binding SelectedProduct.DiscountPrice, Converter={StaticResource NullToVisibilityConverter}}"/>
+                    <TextBlock Text="{Binding SelectedProduct.Stock, StringFormat='Stok: {0}'}" 
+                               FontSize="16" Foreground="#333333" Margin="0,5,0,0"/>
+                    <TextBlock Text="{Binding SelectedProduct.Karat, StringFormat='Karat: {0}'}" 
+                               FontSize="16" Foreground="#333333" Margin="0,5,0,0"/>
+                    <TextBlock Text="{Binding SelectedProduct.Weight, StringFormat='Ağırlık: {0} g'}" 
+                               FontSize="16" Foreground="#333333" Margin="0,5,0,0"/>
+                </StackPanel>
+
+                <!-- İndirim Alanı -->
+                <StackPanel Grid.Column="1" Margin="20,0,0,0">
+                    <TextBlock Text="İndirim Tutarı (TL):" Style="{StaticResource FormLabelStyle}"/>
+                    <TextBox Text="{Binding DiscountAmount, UpdateSourceTrigger=PropertyChanged}" 
+                             Style="{StaticResource MaterialTextBox}" Width="100" Margin="0,5,0,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

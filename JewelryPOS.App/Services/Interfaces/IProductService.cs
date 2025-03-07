@@ -8,6 +8,7 @@ namespace JewelryPOS.App.Services.Interfaces
         Task<IEnumerable<Product>> GetAllProductsAsNoTrackingAsync();
         Task<IEnumerable<Product>> GetAllProductsWithCategoryAsNoTrackingAsync();
         Task<Product> GetProductByIdAsync(Guid id);
+        Task<Product> GetProductByBarcodeAsync(string barcode);
         IQueryable<Product> GetQuery();
         Task AddProductAsync(Product product);
         Task UpdateProductAsync(Product product);
