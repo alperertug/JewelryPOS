@@ -76,12 +76,6 @@ namespace JewelryPOS.App.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("CreatedById")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -91,8 +85,6 @@ namespace JewelryPOS.App.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
 
                     b.ToTable("Categories");
                 });
@@ -115,6 +107,10 @@ namespace JewelryPOS.App.Migrations
 
                     b.Property<Guid>("CreatedById")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
@@ -152,17 +148,6 @@ namespace JewelryPOS.App.Migrations
                     b.HasIndex("CreatedById");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("JewelryPOS.App.Models.Category", b =>
-                {
-                    b.HasOne("JewelryPOS.App.Models.ApplicationUser", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CreatedBy");
                 });
 
             modelBuilder.Entity("JewelryPOS.App.Models.Product", b =>

@@ -12,7 +12,6 @@ namespace JewelryPOS.App.Views
         public CustomerView()
         {
             InitializeComponent();
-            DataContext = App.ServiceProvider.GetRequiredService<CustomerViewModel>();
         }
     }
 }

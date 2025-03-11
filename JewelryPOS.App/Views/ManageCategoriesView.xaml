@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JewelryPOS.App.Views"
         mc:Ignorable="d"
-        Title="Kategorileri Yönet" Height="450" Width="800"
+        Title="Kategorileri Yönet" Height="450" Width="500"
         WindowStartupLocation="CenterScreen"
         Background="#FAFAFA">
     <Grid Margin="20">
@@ -47,8 +47,6 @@
             <DataGrid.Columns>
                 <!--<DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True" Width="Auto"/>-->
                 <DataGridTextColumn Header="Adı" Binding="{Binding Name}" Width="2*"/>
-                <DataGridTextColumn Header="Oluşturan" Binding="{Binding CreatedBy.Email}" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Oluşturulma Tarihi" Binding="{Binding CreatedAt, StringFormat=\{0:dd/MM/yyyy HH:mm\}}" IsReadOnly="True" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 

@@ -40,7 +40,9 @@ namespace JewelryPOS.App
                 .Build();
 
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(configuration
+                .GetConnectionString("DefaultConnection"))
+                .EnableSensitiveDataLogging());
 
             // **Repository & UnitOfWork**
             services.AddScoped<IUnitOfWork, UnitOfWork>();

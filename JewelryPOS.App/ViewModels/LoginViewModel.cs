@@ -10,6 +10,7 @@ namespace JewelryPOS.App.ViewModels
     public class LoginViewModel : BaseViewModel
     {
         private readonly IUserService _userService;
+        private readonly IProductService _productService;
         private string _username;
         private string _password;
         private string _errorMessage;
@@ -49,10 +50,10 @@ namespace JewelryPOS.App.ViewModels
             }
         }
 
-        public LoginViewModel(IUserService userService)
+        public LoginViewModel(IUserService userService, IProductService productService)
         {
             _userService = userService;
-
+            _productService = productService;
             LoginCommand = new RelayCommand<object>((_) => _ = LoginAsync());
             OpenForgotPasswordCommand = new RelayCommand<object>((_) => OpenForgotPasswordWindow());
             OpenRegisterWindowCommand = new RelayCommand<object>((_) => OpenRegisterWindow());
@@ -67,7 +68,7 @@ namespace JewelryPOS.App.ViewModels
                 if (user != null)
                 {
                     UserSession.Instance.SetUser(user);
-                    MainWindow mainWindow = new MainWindow();
+                    MainWindow mainWindow = new MainWindow(_productService);
                     mainWindow.Show();
 
                     Application.Current.Windows[0]?.Close();

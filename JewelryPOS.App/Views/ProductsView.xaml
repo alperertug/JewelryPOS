@@ -47,11 +47,13 @@
                   CanUserDeleteRows="False" 
                   Style="{StaticResource ModernDataGridStyle}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Ürün Adı" Binding="{Binding Name}" Width="2*"/>
-                <DataGridTextColumn Header="Kategori" Binding="{Binding Category.Name}" Width="*"/>
-                <DataGridTextColumn Header="Fiyat" Binding="{Binding Price, StringFormat=N2}" Width="*"/>
-                <DataGridTextColumn Header="Stok" Binding="{Binding Stock}" Width="*"/>
-                <DataGridTemplateColumn Header="Düzenle" Width="Auto">
+                <DataGridTextColumn Header="Ürün Adı" Binding="{Binding Name}" IsReadOnly="True" Width="1.5*"/>
+                <DataGridTextColumn Header="Kategori" Binding="{Binding Category.Name}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Fiyat" Binding="{Binding Price, StringFormat=N2}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Kur" Binding="{Binding Currency}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Stok" Binding="{Binding Stock}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Açıklama" Binding="{Binding Description}" IsReadOnly="True" Width="*"/>
+                <DataGridTemplateColumn Header="Düzenle" Width="0.5*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Command="{Binding DataContext.EditProductCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
@@ -69,7 +71,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Sil" Width="Auto">
+                <DataGridTemplateColumn Header="Sil" Width="0.5*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Command="{Binding DataContext.DeleteProductCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 

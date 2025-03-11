@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using JewelryPOS.App.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JewelryPOS.App.Models
@@ -28,6 +29,10 @@ namespace JewelryPOS.App.Models
 
         [MaxLength(255)]
         public string? Description { get; set; }
+
+        [Required]
+        [Column(TypeName = "nvarchar(20)")]
+        public Currency Currency { get; set; } = Currency.TRY;
 
         [MaxLength(50)]
         public string? Barcode { get; set; }

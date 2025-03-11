@@ -8,6 +8,7 @@
             <!-- Converter Tanımlaması -->
             <converters:TypeToVisibilityConverter x:Key="TypeToVisibilityConverter"/>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <converters:CurrencyToFormattedPriceConverter x:Key="CurrencyToFormattedPriceConverter" />
             
             <!-- Temel Button Stil -->
             <Style TargetType="Button" x:Key="ActionButtonStyle">
@@ -20,7 +21,7 @@
 
             <!-- TextBox Stil -->
             <Style TargetType="TextBox" x:Key="MaterialTextBox">
-                <Setter Property="Padding" Value="10"/>
+                <Setter Property="Padding" Value="1"/>
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="BorderBrush" Value="#D3D3D3"/>
                 <Setter Property="FontFamily" Value="Segoe UI"/>

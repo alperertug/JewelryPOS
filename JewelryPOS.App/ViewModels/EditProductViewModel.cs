@@ -1,8 +1,13 @@
-﻿using JewelryPOS.App.Helpers;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using JewelryPOS.App.Enums;
+using JewelryPOS.App.Helpers;
+using JewelryPOS.App.Messages;
 using JewelryPOS.App.Models;
 using JewelryPOS.App.Services.Interfaces;
 using JewelryPOS.App.Views;
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -15,6 +20,8 @@ namespace JewelryPOS.App.ViewModels
 
         public Product CurrentProduct { get; set; }
         public ObservableCollection<Category> Categories { get; set; } = new ObservableCollection<Category>();
+        public ObservableCollection<Currency> Currencies { get; set; } = new ObservableCollection<Currency>();
+
         private Category _selectedCategory;
         public Category SelectedCategory
         {
@@ -26,6 +33,18 @@ namespace JewelryPOS.App.ViewModels
                 {
                     CurrentProduct.CategoryId = _selectedCategory.Id;
                 }
+                OnPropertyChanged();
+            }
+        }
+
+        private Currency _selectedCurrency;
+        public Currency SelectedCurrency
+        {
+            get => _selectedCurrency;
+            set
+            {
+                _selectedCurrency = value;
+                CurrentProduct.Currency = _selectedCurrency;
                 OnPropertyChanged();
             }
         }
@@ -43,14 +62,14 @@ namespace JewelryPOS.App.ViewModels
             CancelCommand = new RelayCommand<object>(Cancel);
 
             LoadCategoriesAsync();
-            SelectedCategory = Categories.FirstOrDefault(c => c.Id == CurrentProduct.CategoryId);
+            LoadCurrencies();
         }
 
         private async void LoadCategoriesAsync()
         {
             try
             {
-                var categories = await _categoryService.GetAllCategoriesForComboBoxesAsync();
+                var categories = await _categoryService.GetAllCategoriesAsync();
                 Categories.Clear();
                 foreach (var category in categories)
                 {
@@ -64,9 +83,20 @@ namespace JewelryPOS.App.ViewModels
             }
         }
 
+        private void LoadCurrencies()
+        {
+            Currencies.Clear();
+            foreach (Currency currency in Enum.GetValues(typeof(Currency)))
+            {
+                Currencies.Add(currency);
+            }
+            SelectedCurrency = CurrentProduct.Currency;
+        }
+
         private async void SaveProduct(object parameter)
         {
-            if (string.IsNullOrWhiteSpace(CurrentProduct.Name) || CurrentProduct.Price <= 0 || CurrentProduct.Stock < 0 || SelectedCategory == null)
+            if (string.IsNullOrWhiteSpace(CurrentProduct.Name) || CurrentProduct.Price <= 0 || CurrentProduct.Stock < 0 ||
+                SelectedCategory == null || SelectedCurrency == default(Currency))
             {
                 MessageBox.Show("Lütfen tüm zorunlu alanları doldurunuz.", "Uyarı", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -86,9 +116,11 @@ namespace JewelryPOS.App.ViewModels
                     trackedProduct.Description = CurrentProduct.Description;
                     trackedProduct.Barcode = CurrentProduct.Barcode;
                     trackedProduct.CategoryId = SelectedCategory.Id;
+                    trackedProduct.Currency = SelectedCurrency;
                     await _productService.UpdateProductAsync(trackedProduct);
                 }
                 MessageBox.Show("Ürün başarıyla güncellendi!", "Bilgi", MessageBoxButton.OK, MessageBoxImage.Information);
+                WeakReferenceMessenger.Default.Send(new ProductUpdatedMessage(trackedProduct));
                 CloseWindow();
             }
             catch (Exception ex)

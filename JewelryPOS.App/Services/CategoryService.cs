@@ -19,21 +19,10 @@ namespace JewelryPOS.App.Services
             return await _unitOfWork.Repository<Category>().GetAllAsync();
         }
 
-        public async Task<IEnumerable<Category>> GetAllCategoriesWithCreatedByAsync()
+        public async Task<IEnumerable<Category>> GetAllCategoriesAsNoTrackingAsync()
         {
             return await _unitOfWork.Repository<Category>()
                 .GetQuery()
-                .AsNoTracking()
-                .Include(c => c.CreatedBy)
-                .Where(i => i.IsActive == true)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Category>> GetAllCategoriesForComboBoxesAsync()
-        {
-            return await _unitOfWork.Repository<Category>()
-                .GetQuery()
-                .AsNoTracking()
                 .Where(i => i.IsActive == true)
                 .ToListAsync();
         }

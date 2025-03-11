@@ -34,11 +34,32 @@
                 <!-- Ürün Bilgileri -->
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="{Binding SelectedProduct.Name}" Style="{StaticResource FormHeaderStyle}"/>
-                    <TextBlock Text="{Binding SelectedProduct.Price, StringFormat='Orijinal Fiyat: {0:C}'}" 
-                               FontSize="16" Foreground="#333333" Margin="0,10,0,0"/>
-                    <TextBlock Text="{Binding SelectedProduct.DiscountPrice, StringFormat='İndirimli Fiyat: {0:C}'}" 
-                               FontSize="16" Foreground="#4CAF50" Margin="0,5,0,0" 
-                               Visibility="{Binding SelectedProduct.DiscountPrice, Converter={StaticResource NullToVisibilityConverter}}"/>
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
+                                <Binding Path="SelectedProduct.Price" />
+                                <Binding Path="SelectedProduct.Currency" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                        <TextBlock.FontSize>16</TextBlock.FontSize>
+                        <TextBlock.Foreground>#333333</TextBlock.Foreground>
+                        <TextBlock.Margin>0,10,0,0</TextBlock.Margin>
+                    </TextBlock>
+
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
+                                <Binding Path="SelectedProduct.DiscountPrice" />
+                                <Binding Path="SelectedProduct.Currency" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                        <TextBlock.FontSize>16</TextBlock.FontSize>
+                        <TextBlock.Foreground>#4CAF50</TextBlock.Foreground>
+                        <TextBlock.Margin>0,5,0,0</TextBlock.Margin>
+                        <TextBlock.Visibility>
+                            <Binding Path="SelectedProduct.DiscountPrice" Converter="{StaticResource NullToVisibilityConverter}"/>
+                        </TextBlock.Visibility>
+                    </TextBlock>
                     <TextBlock Text="{Binding SelectedProduct.Stock, StringFormat='Stok: {0}'}" 
                                FontSize="16" Foreground="#333333" Margin="0,5,0,0"/>
                     <TextBlock Text="{Binding SelectedProduct.Karat, StringFormat='Karat: {0}'}" 

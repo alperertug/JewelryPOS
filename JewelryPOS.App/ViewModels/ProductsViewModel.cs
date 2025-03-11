@@ -40,6 +40,16 @@ namespace JewelryPOS.App.ViewModels
                 LoadProducts();
             });
 
+            WeakReferenceMessenger.Default.Register<ProductUpdatedMessage>(this, (recipient, message) =>
+            {
+                LoadProducts();
+            });
+
+            WeakReferenceMessenger.Default.Register<CategoryMessage>(this, (recipient, message) =>
+            {
+                LoadProducts();
+            });
+
             LoadProducts();
         }
 
@@ -100,8 +110,9 @@ namespace JewelryPOS.App.ViewModels
             {
                 try
                 {
-                    product.IsActive = false;
-                    await _productService.UpdateProductAsync(product);
+                    var productInDb = await _productService.GetProductByIdAsync(product.Id);
+                    productInDb.IsActive = false;
+                    await _productService.UpdateProductAsync(productInDb);
                     Products.Remove(product);
                 }
                 catch (Exception ex)
@@ -114,6 +125,8 @@ namespace JewelryPOS.App.ViewModels
         ~ProductsViewModel()
         {
             WeakReferenceMessenger.Default.Unregister<ProductAddedMessage>(this);
+            WeakReferenceMessenger.Default.Unregister<ProductUpdatedMessage>(this);
+            WeakReferenceMessenger.Default.Unregister<CategoryMessage>(this);
         }
     }
 }

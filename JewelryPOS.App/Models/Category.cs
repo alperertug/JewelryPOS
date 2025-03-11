@@ -12,8 +12,6 @@ namespace JewelryPOS.App.Models
         [MaxLength(250)]
         public string Name { get; set; }
         public virtual ICollection<Product>? Products { get; set; }
-        public ApplicationUser CreatedBy { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public bool IsActive { get; set; } = true;
     }
 }

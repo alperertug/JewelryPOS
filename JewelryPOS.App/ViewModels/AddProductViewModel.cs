@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+using JewelryPOS.App.Enums;
 using JewelryPOS.App.Helpers;
 using JewelryPOS.App.Messages;
 using JewelryPOS.App.Models;
@@ -17,6 +18,8 @@ namespace JewelryPOS.App.ViewModels
 
         public Product NewProduct { get; set; } = new Product();
         public ObservableCollection<Category> Categories { get; set; } = new ObservableCollection<Category>();
+        public ObservableCollection<Currency> Currencies { get; set; } = new ObservableCollection<Currency>();
+
         private Category _selectedCategory;
         public Category SelectedCategory
         {
@@ -28,6 +31,18 @@ namespace JewelryPOS.App.ViewModels
                 {
                     NewProduct.CategoryId = _selectedCategory.Id;
                 }
+                OnPropertyChanged();
+            }
+        }
+
+        private Currency _selectedCurrency;
+        public Currency SelectedCurrency
+        {
+            get => _selectedCurrency;
+            set
+            {
+                _selectedCurrency = value;
+                NewProduct.Currency = _selectedCurrency;
                 OnPropertyChanged();
             }
         }
@@ -44,13 +59,14 @@ namespace JewelryPOS.App.ViewModels
             CancelCommand = new RelayCommand<object>(Cancel);
 
             LoadCategoriesAsync();
+            LoadCurrencies();
         }
 
         private async void LoadCategoriesAsync()
         {
             try
             {
-                var categories = await _categoryService.GetAllCategoriesForComboBoxesAsync();
+                var categories = await _categoryService.GetAllCategoriesAsync();
                 Categories.Clear();
 
                 var dummyCategory = new Category { Id = Guid.Empty, Name = "Lütfen Kategori Seçiniz" };
@@ -58,7 +74,10 @@ namespace JewelryPOS.App.ViewModels
 
                 foreach (var category in categories)
                 {
-                    Categories.Add(category);
+                    if (category.IsActive)
+                    {
+                        Categories.Add(category);
+                    }
                 }
 
                 SelectedCategory = dummyCategory;
@@ -69,9 +88,20 @@ namespace JewelryPOS.App.ViewModels
             }
         }
 
+        private void LoadCurrencies()
+        {
+            Currencies.Clear();
+            foreach (Currency currency in Enum.GetValues(typeof(Currency)))
+            {
+                Currencies.Add(currency);
+            }
+            SelectedCurrency = Currency.TRY;
+        }
+
         private async void SaveProduct(object parameter)
         {
-            if (string.IsNullOrWhiteSpace(NewProduct.Name) || NewProduct.Price <= 0 || NewProduct.Stock < 0 || SelectedCategory == null || SelectedCategory.Id == Guid.Empty)
+            if (string.IsNullOrWhiteSpace(NewProduct.Name) || NewProduct.Price <= 0 || NewProduct.Stock < 0 ||
+                SelectedCategory == null || SelectedCategory.Id == Guid.Empty)
             {
                 MessageBox.Show("Lütfen tüm zorunlu alanları doldurunuz.", "Uyarı", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;

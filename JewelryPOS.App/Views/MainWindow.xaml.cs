@@ -1,6 +1,6 @@
-﻿using JewelryPOS.App.ViewModels;
+﻿using JewelryPOS.App.Services.Interfaces;
+using JewelryPOS.App.ViewModels;
 using System.Windows;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace JewelryPOS.App.Views
 {
@@ -9,10 +9,13 @@ namespace JewelryPOS.App.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly IProductService _productService;
+
+        public MainWindow(IProductService productService)
         {
+            _productService = productService;
             InitializeComponent();
-            DataContext = App.ServiceProvider.GetRequiredService<MainViewModel>();
+            DataContext = new MainViewModel(_productService);
         }
     }
 }

@@ -5,8 +5,7 @@ namespace JewelryPOS.App.Services.Interfaces
     public interface ICategoryService
     {
         Task<IEnumerable<Category>> GetAllCategoriesAsync();
-        Task<IEnumerable<Category>> GetAllCategoriesWithCreatedByAsync();
-        Task<IEnumerable<Category>> GetAllCategoriesForComboBoxesAsync();
+        Task<IEnumerable<Category>> GetAllCategoriesAsNoTrackingAsync();
         Task<Category> GetCategoryByIdAsync(Guid id);
         IQueryable<Category> GetQuery();
         Task AddCategoryAsync(Category category);

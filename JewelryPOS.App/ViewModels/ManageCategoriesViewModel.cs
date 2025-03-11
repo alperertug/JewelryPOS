@@ -1,4 +1,6 @@
-﻿using JewelryPOS.App.Helpers;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using JewelryPOS.App.Helpers;
+using JewelryPOS.App.Messages;
 using JewelryPOS.App.Models;
 using JewelryPOS.App.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -60,11 +62,14 @@ namespace JewelryPOS.App.ViewModels
         {
             try
             {
-                var categories = await _categoryService.GetAllCategoriesWithCreatedByAsync();
+                var categories = await _categoryService.GetAllCategoriesAsync();
                 Categories.Clear();
                 foreach (var category in categories)
                 {
-                    Categories.Add(category);
+                    if (category.IsActive)
+                    {
+                        Categories.Add(category);
+                    }
                 }
             }
             catch (Exception ex)
@@ -83,10 +88,11 @@ namespace JewelryPOS.App.ViewModels
 
             try
             {
-                var newCategory = new Category { Name = NewCategoryName, CreatedBy = UserSession.Instance.CurrentUser };
+                var newCategory = new Category { Name = NewCategoryName };
                 await _categoryService.AddCategoryAsync(newCategory);
                 Categories.Add(newCategory);
                 NewCategoryName = string.Empty;
+                WeakReferenceMessenger.Default.Send(new CategoryMessage(newCategory));
             }
             catch (Exception ex)
             {
@@ -104,6 +110,7 @@ namespace JewelryPOS.App.ViewModels
                 trackedCategory.Name = SelectedCategory.Name;
                 await _categoryService.UpdateCategoryAsync(trackedCategory);
                 MessageBox.Show("Kategori güncellendi.", "Başarılı", MessageBoxButton.OK, MessageBoxImage.Information);
+                WeakReferenceMessenger.Default.Send(new CategoryMessage(trackedCategory));
             }
             catch (Exception ex)
             {
@@ -126,6 +133,7 @@ namespace JewelryPOS.App.ViewModels
                     trackedCategory.IsActive = false;
                     await _categoryService.UpdateCategoryAsync(trackedCategory);
                     Categories.Remove(SelectedCategory);
+                    WeakReferenceMessenger.Default.Send(new CategoryMessage(trackedCategory));
                 }
                 else
                 {

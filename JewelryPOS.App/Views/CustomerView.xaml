@@ -24,9 +24,17 @@
             <Border.Effect>
                 <DropShadowEffect Color="#B0B0B0" Direction="270" ShadowDepth="2" Opacity="0.2"/>
             </Border.Effect>
-            <TextBlock Text="Hoş geldiniz! Bu ekran müşterilere yöneliktir." 
-                       FontSize="24" FontFamily="Segoe UI" Foreground="#333333" 
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="{Binding ProductName}" Style="{StaticResource FormHeaderStyle}" 
+                           Foreground="#333333" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding OriginalPrice, StringFormat='Fiyat: {0:C}'}" 
+                           FontSize="24" FontFamily="Segoe UI" Foreground="#333333" 
+                           Margin="0,20,0,0" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding DiscountedPrice, StringFormat='İndirimli Fiyat: {0:C}'}" 
+                           FontSize="28" FontFamily="Segoe UI" Foreground="#4CAF50" 
+                           Margin="0,20,0,0" HorizontalAlignment="Center"
+                           Visibility="{Binding DiscountedPrice, Converter={StaticResource NullToVisibilityConverter}}"/>
+            </StackPanel>
         </Border>
     </Grid>
 </Window>

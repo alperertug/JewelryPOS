@@ -78,8 +78,6 @@ namespace JewelryPOS.App.ViewModels
         {
             UserSession.Instance.ClearUser();
 
-            // customer view'ı kapatıyor ama mainview homeview falan tekrar login olunduğunda aynı değerler duruyor. tam olarak yok edip öyle kapatmak gerekiyor her şeyi.
-
             var loginWindow = new LoginWindow();
             loginWindow.Show();
 
@@ -94,6 +92,7 @@ namespace JewelryPOS.App.ViewModels
             {
                 var secondary = monitors.First(m => !m.Primary);
                 var customerView = new CustomerView();
+                customerView.DataContext = _customerViewModel;
                 customerView.Left = secondary.WorkArea.Left;
                 customerView.Top = secondary.WorkArea.Top;
                 customerView.Width = secondary.WorkArea.Width;
