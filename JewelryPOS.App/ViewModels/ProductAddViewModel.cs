@@ -107,6 +107,16 @@ namespace JewelryPOS.App.ViewModels
                 return;
             }
 
+            if (NewProduct.Barcode != null || NewProduct.Barcode != string.Empty)
+            {
+                var checkBarcode = await _productService.GetProductByBarcodeAsync(NewProduct.Barcode);
+                if (checkBarcode != null)
+                {
+                    MessageBox.Show("Bu barkod zaten kullanılıyor! Lütfen farklı bir barkod girin.", "Uyarı", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+            }
+
             NewProduct.CreatedBy = UserSession.Instance.CurrentUser;
             NewProduct.CreatedAt = DateTime.UtcNow;
             NewProduct.IsActive = true;

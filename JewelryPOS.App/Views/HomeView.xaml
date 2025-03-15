@@ -26,7 +26,7 @@
         Background="#FFFFFF"
         CornerRadius="16"
         Padding="24"
-        Margin="20"
+        Margin="10"
         MaxWidth="900" MinWidth="520"
         HorizontalAlignment="Center"
         Visibility="{Binding SelectedProduct, Converter={StaticResource NullToVisibilityConverter}}">
