@@ -3,6 +3,8 @@ using JewelryPOS.App.Enums;
 using JewelryPOS.App.Helpers;
 using JewelryPOS.App.Models;
 using JewelryPOS.App.Services.Interfaces;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace JewelryPOS.App.Services
 {
@@ -68,6 +70,49 @@ namespace JewelryPOS.App.Services
             await _unitOfWork.SaveChangesAsync();
 
             return user;
+        }
+
+        public async Task<bool> IsUsernameTakenAsync(string username, Guid excludeId)
+        {
+            var existingUser = await _unitOfWork.Repository<ApplicationUser>()
+                .FindByUsernameAsync(u => u.Username == username && u.Id != excludeId);
+            return existingUser != null;
+        }
+
+        public async Task<bool> IsEmailTakenAsync(string email, Guid excludeId)
+        {
+            var existingEmail = await _unitOfWork.Repository<ApplicationUser>()
+                .FindByUsernameAsync(u => u.Email == email && u.Id != excludeId);
+            return existingEmail != null;
+        }
+
+        public bool VerifyPassword(ApplicationUser user, string password)
+        {
+            return PasswordHelper.VerifyPassword(password, user.PasswordHash, user.PasswordSalt);
+        }
+
+        public async Task UpdateUserAsync(ApplicationUser user)
+        {
+            _unitOfWork.Repository<ApplicationUser>().Update(user);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+        public string GenerateSalt()
+        {
+            using (var hmac = new HMACSHA512())
+            {
+                return Convert.ToBase64String(hmac.Key);
+            }
+        }
+
+        public string HashPassword(string password, string salt)
+        {
+            using (var hmac = new HMACSHA512())
+            {
+                hmac.Key = Convert.FromBase64String(salt);
+                var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return Convert.ToBase64String(hash);
+            }
         }
     }
 }

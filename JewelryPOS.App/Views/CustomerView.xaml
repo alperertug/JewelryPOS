@@ -6,9 +6,7 @@
         mc:Ignorable="d"
         Title="Müşteri Ekranı"
         WindowStyle="None" 
-        Background="#FAFAFA"
-        WindowStartupLocation="Manual"
-        WindowState="Normal">
+        Background="#FAFAFA">
     <Grid>
         <!-- Üst Bar -->
         <Border Background="White" Height="60" VerticalAlignment="Top" Padding="20,10">
@@ -26,14 +24,36 @@
             </Border.Effect>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBlock Text="{Binding ProductName}" Style="{StaticResource FormHeaderStyle}" 
-                           Foreground="#333333" HorizontalAlignment="Center"/>
-                <TextBlock Text="{Binding OriginalPrice, StringFormat='Fiyat: {0:C}'}" 
-                           FontSize="24" FontFamily="Segoe UI" Foreground="#333333" 
-                           Margin="0,20,0,0" HorizontalAlignment="Center"/>
-                <TextBlock Text="{Binding DiscountedPrice, StringFormat='İndirimli Fiyat: {0:C}'}" 
-                           FontSize="28" FontFamily="Segoe UI" Foreground="#4CAF50" 
-                           Margin="0,20,0,0" HorizontalAlignment="Center"
-                           Visibility="{Binding DiscountedPrice, Converter={StaticResource NullToVisibilityConverter}}"/>
+                           Foreground="#333333" FontSize="60" HorizontalAlignment="Center"/>
+                <TextBlock>
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
+                            <Binding Path="OriginalPrice" />
+                            <Binding Path="Currency" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                    <TextBlock.FontSize>60</TextBlock.FontSize>
+                    <TextBlock.FontFamily>Segoe UI</TextBlock.FontFamily>
+                    <TextBlock.Foreground>#333333</TextBlock.Foreground>
+                    <TextBlock.Margin>0,20,0,0</TextBlock.Margin>
+                    <TextBlock.HorizontalAlignment>Center</TextBlock.HorizontalAlignment>
+                </TextBlock>
+                <TextBlock>
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
+                            <Binding Path="DiscountedPrice" />
+                            <Binding Path="Currency" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                    <TextBlock.FontSize>54</TextBlock.FontSize>
+                    <TextBlock.FontFamily>Segoe UI</TextBlock.FontFamily>
+                    <TextBlock.Foreground>#4CAF50</TextBlock.Foreground>
+                    <TextBlock.Margin>0,20,0,0</TextBlock.Margin>
+                    <TextBlock.HorizontalAlignment>Center</TextBlock.HorizontalAlignment>
+                    <TextBlock.Visibility>
+                        <Binding Path="DiscountedPrice" Converter="{StaticResource NullToVisibilityConverter}"/>
+                    </TextBlock.Visibility>
+                </TextBlock>
             </StackPanel>
         </Border>
     </Grid>

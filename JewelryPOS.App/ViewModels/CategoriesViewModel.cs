@@ -1,19 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using JewelryPOS.App.Helpers;
 using JewelryPOS.App.Messages;
 using JewelryPOS.App.Models;
 using JewelryPOS.App.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace JewelryPOS.App.ViewModels
 {
-    public class ManageCategoriesViewModel : INotifyPropertyChanged
+    public class CategoriesViewModel : INotifyPropertyChanged
     {
         private readonly ICategoryService _categoryService;
 
@@ -47,7 +44,7 @@ namespace JewelryPOS.App.ViewModels
         public ICommand EditCategoryCommand { get; }
         public ICommand DeleteCategoryCommand { get; }
 
-        public ManageCategoriesViewModel(ICategoryService categoryService)
+        public CategoriesViewModel(ICategoryService categoryService)
         {
             _categoryService = categoryService;
 

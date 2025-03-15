@@ -1,15 +1,15 @@
-﻿using JewelryPOS.App.ViewModels;
+﻿using JewelryPOS.App.ViewModels.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows.Controls;
 
-namespace JewelryPOS.App.Views
+namespace JewelryPOS.App.Views.Settings
 {
     /// <summary>
-    /// Interaction logic for SettingsWindow.xaml
+    /// Interaction logic for SettingsView.xaml
     /// </summary>
-    public partial class SettingsWindow : UserControl
+    public partial class SettingsView : UserControl
     {
-        public SettingsWindow()
+        public SettingsView()
         {
             InitializeComponent();
             DataContext = App.ServiceProvider.GetRequiredService<SettingsViewModel>();

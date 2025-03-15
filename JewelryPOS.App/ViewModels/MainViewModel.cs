@@ -1,6 +1,7 @@
 ﻿using JewelryPOS.App.Helpers;
 using JewelryPOS.App.Services.Interfaces;
 using JewelryPOS.App.Views;
+using JewelryPOS.App.Views.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Input;
@@ -50,8 +51,8 @@ namespace JewelryPOS.App.ViewModels
 
             OpenHomeCommand = new RelayCommand<object>((_) => CurrentView = new HomeView(_customerViewModel));
             OpenProductsCommand = new RelayCommand<object>((_) => CurrentView = App.ServiceProvider.GetRequiredService<ProductsView>());
-            OpenSalesCommand = new RelayCommand<object>((_) => CurrentView = new SalesViewModel());
-            OpenSettingsCommand = new RelayCommand<object>((_) => CurrentView = new SettingsWindow());
+            OpenSalesCommand = new RelayCommand<object>((_) => CurrentView = new SalesView());
+            OpenSettingsCommand = new RelayCommand<object>((_) => CurrentView = new SettingsView());
             LogoutCommand = new RelayCommand<object>((_) => Logout());
             SwitchUserCommand = new RelayCommand<object>((_) => SwitchUser());
 

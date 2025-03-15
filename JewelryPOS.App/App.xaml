@@ -9,7 +9,7 @@
             <converters:TypeToVisibilityConverter x:Key="TypeToVisibilityConverter"/>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
             <converters:CurrencyToFormattedPriceConverter x:Key="CurrencyToFormattedPriceConverter" />
-            
+
             <!-- Temel Button Stil -->
             <Style TargetType="Button" x:Key="ActionButtonStyle">
                 <Setter Property="Padding" Value="8,4"/>
@@ -17,6 +17,17 @@
                 <Setter Property="FontSize" Value="14"/>
                 <Setter Property="BorderThickness" Value="0"/>
                 <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="10"
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
 
             <!-- TextBox Stil -->
@@ -68,8 +79,7 @@
 
             <!-- Login Button Stil -->
             <Style x:Key="LoginButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
-                <Setter Property="Background" Value="#4CAF50"/>
-                <!-- Yeşil -->
+                <Setter Property="Background" Value="#28A745"/>
                 <Setter Property="Foreground" Value="White"/>
                 <Setter Property="FontWeight" Value="Bold"/>
                 <Setter Property="ContentTemplate">
@@ -108,11 +118,11 @@
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
             </Style>
 
-            <!-- MenuButtonStyle (Yeni) -->
+            <!-- MenuButtonStyle -->
             <Style x:Key="MenuButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Foreground" Value="White"/>
-                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontSize" Value="18"/>
                 <Setter Property="Padding" Value="10"/>
                 <Setter Property="Margin" Value="5,5,5,0"/>
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -120,7 +130,9 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
-                            <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="10"
+                                    Padding="{TemplateBinding Padding}">
                                 <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
@@ -128,41 +140,94 @@
                 </Setter>
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="#34495E"/>
-                        <!-- Hafif koyu mavi hover efekti -->
+                        <Setter Property="Background" Value="#0056D2"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
 
             <!-- Özel Button Stilleri -->
             <Style x:Key="AddButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
-                <Setter Property="Background" Value="#A5D6A7"/>
-                <!-- Soft Yeşil -->
+                <Setter Property="Background" Value="#28A745"/>
                 <Setter Property="Foreground" Value="White"/>
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="➕" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <TextBlock Text="Yeni Ürün Ekle" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
 
             <Style x:Key="EditButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
-                <Setter Property="Background" Value="#FFB300"/>
-                <!-- Sarı -->
+                <Setter Property="Background" Value="#FFC107"/>
                 <Setter Property="Foreground" Value="White"/>
             </Style>
 
             <Style x:Key="DeleteButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
-                <Setter Property="Background" Value="#EF5350"/>
-                <!-- Kırmızı -->
+                <Setter Property="Background" Value="#DC3545"/>
                 <Setter Property="Foreground" Value="White"/>
             </Style>
 
             <Style x:Key="ManageButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
-                <Setter Property="Background" Value="#90CAF9"/>
-                <!-- Soft Mavi -->
+                <Setter Property="Background" Value="#007BFF"/>
                 <Setter Property="Foreground" Value="White"/>
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📋" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <TextBlock Text="Kategori Yönetimi" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="BarkodButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🔍" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <TextBlock Text="Barkodu Oku" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="CleanButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🧹" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <TextBlock Text="Temizle" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="ApplyDiscountButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="⤵️" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <TextBlock Text="Uygula" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
 
             <!-- SaveButtonStyle -->
             <Style x:Key="SaveButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
-                <Setter Property="Background" Value="#4CAF50"/>
-                <!-- Yeşil -->
+                <Setter Property="Background" Value="#28A745"/>
                 <Setter Property="Foreground" Value="White"/>
                 <Setter Property="ContentTemplate">
                     <Setter.Value>
@@ -175,11 +240,10 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
+            
             <!-- CancelButtonStyle -->
             <Style x:Key="CancelButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
-                <Setter Property="Background" Value="#FF6B6B"/>
-                <!-- Kırmızı -->
+                <Setter Property="Background" Value="#DC3545"/>
                 <Setter Property="Foreground" Value="White"/>
                 <Setter Property="ContentTemplate">
                     <Setter.Value>
@@ -195,8 +259,7 @@
 
             <!-- SwitchUserButtonStyle -->
             <Style x:Key="SwitchUserButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
-                <Setter Property="Background" Value="#90CAF9"/>
-                <!-- Soft Mavi -->
+                <Setter Property="Background" Value="#007BFF"/>
                 <Setter Property="Foreground" Value="White"/>
                 <Setter Property="ContentTemplate">
                     <Setter.Value>
@@ -212,21 +275,19 @@
 
             <!-- LogoutButtonStyle -->
             <Style x:Key="LogoutButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
-                <Setter Property="Background" Value="#E57373"/>
-                <!-- Soft Kırmızı -->
+                <Setter Property="Background" Value="#DC3545"/>
                 <Setter Property="Foreground" Value="White"/>
                 <Setter Property="ContentTemplate">
                     <Setter.Value>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="🚪" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <TextBlock Text="👋" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                 <TextBlock Text="Çıkış Yap" VerticalAlignment="Center"/>
                             </StackPanel>
                         </DataTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
-
 
             <!-- DropShadowEffect Stil -->
             <DropShadowEffect x:Key="DefaultShadowEffect" Color="#B0B0B0" Direction="270" ShadowDepth="2" Opacity="0.2"/>
@@ -243,7 +304,9 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
-                            <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="10"
+                                    Padding="{TemplateBinding Padding}">
                                 <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
@@ -251,13 +314,11 @@
                 </Setter>
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="#E0E0E0"/>
-                        <!-- Hover efekti: Açık gri -->
+                        <Setter Property="Background" Value="#D1E8FF"/>
                         <Setter Property="Foreground" Value="#333333"/>
                     </Trigger>
                     <Trigger Property="IsPressed" Value="True">
-                        <Setter Property="Background" Value="#D0D0D0"/>
-                        <!-- Tıklama efekti: Daha koyu gri -->
+                        <Setter Property="Background" Value="#A3CFFF"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>

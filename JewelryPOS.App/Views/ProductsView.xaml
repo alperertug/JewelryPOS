@@ -14,28 +14,12 @@
         <!-- Üst Butonlar -->
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
             <Button Command="{Binding AddProductCommand}" 
-                    Width="150" Height="40" Margin="0,0,10,0" 
-                    Style="{StaticResource AddButtonStyle}">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="➕" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                            <TextBlock Text="Yeni Ürün Ekle" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </Button.ContentTemplate>
+                Width="150" Height="40" Margin="0,0,10,0" 
+                Style="{StaticResource AddButtonStyle}">
             </Button>
             <Button Command="{Binding ManageCategoriesCommand}" 
-                    Width="150" Height="40" 
-                    Style="{StaticResource ManageButtonStyle}">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="📋" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                            <TextBlock Text="Kategori Yönetimi" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </Button.ContentTemplate>
+                Width="150" Height="40" 
+                Style="{StaticResource ManageButtonStyle}">
             </Button>
         </StackPanel>
 
@@ -47,9 +31,13 @@
                   CanUserDeleteRows="False" 
                   Style="{StaticResource ModernDataGridStyle}">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Barkod" Binding="{Binding Barcode}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="Ürün Adı" Binding="{Binding Name}" IsReadOnly="True" Width="1.5*"/>
                 <DataGridTextColumn Header="Kategori" Binding="{Binding Category.Name}" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Fiyat" Binding="{Binding Price, StringFormat=N2}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Fiyat" 
+                    Binding="{Binding Price, StringFormat=N2, ConverterCulture=tr-TR}" 
+                    IsReadOnly="True" 
+                    Width="*"/>
                 <DataGridTextColumn Header="Kur" Binding="{Binding Currency}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="Stok" Binding="{Binding Stock}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="Açıklama" Binding="{Binding Description}" IsReadOnly="True" Width="*"/>

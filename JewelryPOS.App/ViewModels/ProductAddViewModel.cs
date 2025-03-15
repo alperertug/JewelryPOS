@@ -5,20 +5,18 @@ using JewelryPOS.App.Messages;
 using JewelryPOS.App.Models;
 using JewelryPOS.App.Services.Interfaces;
 using JewelryPOS.App.Views;
-using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
 namespace JewelryPOS.App.ViewModels
 {
-    public class EditProductViewModel : BaseViewModel
+    public class ProductAddViewModel : BaseViewModel
     {
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
 
-        public Product CurrentProduct { get; set; }
+        public Product NewProduct { get; set; } = new Product();
         public ObservableCollection<Category> Categories { get; set; } = new ObservableCollection<Category>();
         public ObservableCollection<Currency> Currencies { get; set; } = new ObservableCollection<Currency>();
 
@@ -31,7 +29,7 @@ namespace JewelryPOS.App.ViewModels
                 _selectedCategory = value;
                 if (_selectedCategory != null)
                 {
-                    CurrentProduct.CategoryId = _selectedCategory.Id;
+                    NewProduct.CategoryId = _selectedCategory.Id;
                 }
                 OnPropertyChanged();
             }
@@ -44,7 +42,7 @@ namespace JewelryPOS.App.ViewModels
             set
             {
                 _selectedCurrency = value;
-                CurrentProduct.Currency = _selectedCurrency;
+                NewProduct.Currency = _selectedCurrency;
                 OnPropertyChanged();
             }
         }
@@ -52,11 +50,10 @@ namespace JewelryPOS.App.ViewModels
         public ICommand SaveProductCommand { get; }
         public ICommand CancelCommand { get; }
 
-        public EditProductViewModel(IProductService productService, ICategoryService categoryService, Product product)
+        public ProductAddViewModel(IProductService productService, ICategoryService categoryService)
         {
             _productService = productService;
             _categoryService = categoryService;
-            CurrentProduct = product;
 
             SaveProductCommand = new RelayCommand<object>(SaveProduct);
             CancelCommand = new RelayCommand<object>(Cancel);
@@ -71,11 +68,19 @@ namespace JewelryPOS.App.ViewModels
             {
                 var categories = await _categoryService.GetAllCategoriesAsync();
                 Categories.Clear();
+
+                var dummyCategory = new Category { Id = Guid.Empty, Name = "Lütfen Kategori Seçiniz" };
+                Categories.Add(dummyCategory);
+
                 foreach (var category in categories)
                 {
-                    Categories.Add(category);
+                    if (category.IsActive)
+                    {
+                        Categories.Add(category);
+                    }
                 }
-                SelectedCategory = Categories.FirstOrDefault(c => c.Id == CurrentProduct.CategoryId);
+
+                SelectedCategory = dummyCategory;
             }
             catch (Exception ex)
             {
@@ -90,42 +95,32 @@ namespace JewelryPOS.App.ViewModels
             {
                 Currencies.Add(currency);
             }
-            SelectedCurrency = CurrentProduct.Currency;
+            SelectedCurrency = Currency.TRY;
         }
 
         private async void SaveProduct(object parameter)
         {
-            if (string.IsNullOrWhiteSpace(CurrentProduct.Name) || CurrentProduct.Price <= 0 || CurrentProduct.Stock < 0 ||
-                SelectedCategory == null || SelectedCurrency == default(Currency))
+            if (string.IsNullOrWhiteSpace(NewProduct.Name) || NewProduct.Price <= 0 || NewProduct.Stock < 0 ||
+                SelectedCategory == null || SelectedCategory.Id == Guid.Empty)
             {
                 MessageBox.Show("Lütfen tüm zorunlu alanları doldurunuz.", "Uyarı", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
+            NewProduct.CreatedBy = UserSession.Instance.CurrentUser;
+            NewProduct.CreatedAt = DateTime.UtcNow;
+            NewProduct.IsActive = true;
+
             try
             {
-                var trackedProduct = await _productService.GetProductByIdAsync(CurrentProduct.Id);
-                if (trackedProduct != null)
-                {
-                    trackedProduct.Name = CurrentProduct.Name;
-                    trackedProduct.Price = CurrentProduct.Price;
-                    trackedProduct.DiscountPrice = CurrentProduct.DiscountPrice;
-                    trackedProduct.Stock = CurrentProduct.Stock;
-                    trackedProduct.Karat = CurrentProduct.Karat;
-                    trackedProduct.Weight = CurrentProduct.Weight;
-                    trackedProduct.Description = CurrentProduct.Description;
-                    trackedProduct.Barcode = CurrentProduct.Barcode;
-                    trackedProduct.CategoryId = SelectedCategory.Id;
-                    trackedProduct.Currency = SelectedCurrency;
-                    await _productService.UpdateProductAsync(trackedProduct);
-                }
-                MessageBox.Show("Ürün başarıyla güncellendi!", "Bilgi", MessageBoxButton.OK, MessageBoxImage.Information);
-                WeakReferenceMessenger.Default.Send(new ProductUpdatedMessage(trackedProduct));
+                await _productService.AddProductAsync(NewProduct);
+                MessageBox.Show("Ürün başarıyla eklendi!", "Bilgi", MessageBoxButton.OK, MessageBoxImage.Information);
+                WeakReferenceMessenger.Default.Send(new ProductAddedMessage(NewProduct));
                 CloseWindow();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ürün güncellenirken hata oluştu: {ex.Message}", "Hata", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ürün eklenirken hata oluştu: {ex.Message}", "Hata", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -136,7 +131,7 @@ namespace JewelryPOS.App.ViewModels
 
         private void CloseWindow()
         {
-            Application.Current.Windows.OfType<EditProductView>().FirstOrDefault()?.Close();
+            Application.Current.Windows.OfType<ProductAddView>().FirstOrDefault()?.Close();
         }
     }
 }

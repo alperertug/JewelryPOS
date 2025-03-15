@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace JewelryPOS.App.Views
+namespace JewelryPOS.App.Views.Settings
 {
     /// <summary>
-    /// Interaction logic for EditProductView.xaml
+    /// Interaction logic for AppSettingsView.xaml
     /// </summary>
-    public partial class EditProductView : Window
+    public partial class AppSettingsView : UserControl
     {
-        public EditProductView()
+        public AppSettingsView()
         {
             InitializeComponent();
         }

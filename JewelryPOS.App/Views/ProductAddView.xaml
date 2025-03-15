@@ -1,7 +1,7 @@
-﻿<Window x:Class="JewelryPOS.App.Views.EditProductView"
+﻿<Window x:Class="JewelryPOS.App.Views.ProductAddView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Ürün Düzenle" Height="860" Width="600"
+        Title="Yeni Ürün Ekle" Height="860" Width="600"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         Background="#fafafa">
@@ -28,11 +28,11 @@
             <RowDefinition Height="Auto"/>
             <!-- Açıklama -->
             <RowDefinition Height="100"/>
-            <!-- Butonlar -->
+            <!-- Butonlar için sabit yükseklik -->
         </Grid.RowDefinitions>
 
         <!-- Başlık -->
-        <TextBlock Grid.Row="0" Text="Ürün Düzenle" FontSize="24" FontWeight="Bold" 
+        <TextBlock Grid.Row="0" Text="Yeni Ürün Ekle" FontSize="24" FontWeight="Bold" 
                    HorizontalAlignment="Center" Margin="0,0,0,10" FontFamily="Segoe UI"/>
 
         <!-- Ürün Adı -->
@@ -45,9 +45,9 @@
                 <Label Content="Ürün Adı:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
                 <TextBlock Text="*" Foreground="Red" VerticalAlignment="Center" Margin="5,0,0,0"/>
             </StackPanel>
-            <TextBox Grid.Column="1" Width="300" Height="40" FontSize="16" 
-                     Text="{Binding CurrentProduct.Name, UpdateSourceTrigger=PropertyChanged}" 
-                     FontFamily="Segoe UI" Padding="8"/>
+            <TextBox Grid.Column="1" Width="300" Height="40" 
+                     Text="{Binding NewProduct.Name, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource MaterialTextBox}"/>
         </Grid>
 
         <!-- Barkod -->
@@ -57,9 +57,9 @@
                 <ColumnDefinition Width="300"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Barkod:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
-            <TextBox Grid.Column="1" Width="300" Height="40" FontSize="16" 
-                     Text="{Binding CurrentProduct.Barcode, UpdateSourceTrigger=PropertyChanged}" 
-                     FontFamily="Segoe UI" Padding="8"/>
+            <TextBox Grid.Column="1" Width="300" Height="40" 
+                     Text="{Binding NewProduct.Barcode, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource MaterialTextBox}"/>
         </Grid>
 
         <!-- Fiyat -->
@@ -72,9 +72,9 @@
                 <Label Content="Fiyat:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
                 <TextBlock Text="*" Foreground="Red" VerticalAlignment="Center" Margin="5,0,0,0"/>
             </StackPanel>
-            <TextBox Grid.Column="1" Width="300" Height="40" FontSize="16" 
-                     Text="{Binding CurrentProduct.Price, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
-                     FontFamily="Segoe UI" Padding="8"/>
+            <TextBox Grid.Column="1" Width="300" Height="40" 
+                     Text="{Binding NewProduct.Price, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
+                     Style="{StaticResource MaterialTextBox}"/>
         </Grid>
 
         <!-- İndirimli Fiyat -->
@@ -84,9 +84,9 @@
                 <ColumnDefinition Width="300"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="İndirimli Fiyat:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
-            <TextBox Grid.Column="1" Width="300" Height="40" FontSize="16" 
-                     Text="{Binding CurrentProduct.DiscountPrice, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
-                     FontFamily="Segoe UI" Padding="8"/>
+            <TextBox Grid.Column="1" Width="300" Height="40" 
+                     Text="{Binding NewProduct.DiscountPrice, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
+                     Style="{StaticResource MaterialTextBox}"/>
         </Grid>
 
         <!-- Kur Seçimi -->
@@ -97,11 +97,12 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Column="0">
                 <Label Content="Kur:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
+                <TextBlock Text="*" Foreground="Red" VerticalAlignment="Center" Margin="5,0,0,0"/>
             </StackPanel>
-            <ComboBox Grid.Column="1" Width="300" Height="40" FontSize="16" VerticalContentAlignment="Center"
+            <ComboBox Grid.Column="1" Width="300" Height="40" 
               ItemsSource="{Binding Currencies}" 
               SelectedItem="{Binding SelectedCurrency}" 
-              FontFamily="Segoe UI"/>
+              Style="{StaticResource MaterialComboBox}"/>
         </Grid>
 
         <!-- Stok -->
@@ -114,9 +115,9 @@
                 <Label Content="Stok:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
                 <TextBlock Text="*" Foreground="Red" VerticalAlignment="Center" Margin="5,0,0,0"/>
             </StackPanel>
-            <TextBox Grid.Column="1" Width="300" Height="40" FontSize="16" 
-                     Text="{Binding CurrentProduct.Stock, UpdateSourceTrigger=PropertyChanged}" 
-                     FontFamily="Segoe UI" Padding="8"/>
+            <TextBox Grid.Column="1" Width="300" Height="40" 
+                     Text="{Binding NewProduct.Stock, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource MaterialTextBox}"/>
         </Grid>
 
         <!-- Karat -->
@@ -126,9 +127,9 @@
                 <ColumnDefinition Width="300"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Karat:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
-            <TextBox Grid.Column="1" Width="300" Height="40" FontSize="16" 
-                     Text="{Binding CurrentProduct.Karat, UpdateSourceTrigger=PropertyChanged}" 
-                     FontFamily="Segoe UI" Padding="8"/>
+            <TextBox Grid.Column="1" Width="300" Height="40" 
+                     Text="{Binding NewProduct.Karat, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource MaterialTextBox}"/>
         </Grid>
 
         <!-- Ağırlık -->
@@ -138,9 +139,9 @@
                 <ColumnDefinition Width="300"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Ağırlık:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
-            <TextBox Grid.Column="1" Width="300" Height="40" FontSize="16" 
-                     Text="{Binding CurrentProduct.Weight, UpdateSourceTrigger=PropertyChanged}" 
-                     FontFamily="Segoe UI" Padding="8"/>
+            <TextBox Grid.Column="1" Width="300" Height="40" 
+                     Text="{Binding NewProduct.Weight, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource MaterialTextBox}"/>
         </Grid>
 
         <!-- Kategori Seçimi -->
@@ -153,10 +154,11 @@
                 <Label Content="Kategori:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
                 <TextBlock Text="*" Foreground="Red" VerticalAlignment="Center" Margin="5,0,0,0"/>
             </StackPanel>
-            <ComboBox Grid.Column="1" Width="300" Height="40" FontSize="16" VerticalContentAlignment="Center"
+            <ComboBox Grid.Column="1" Width="300" Height="40" 
                       ItemsSource="{Binding Categories}" 
                       SelectedItem="{Binding SelectedCategory}" 
-                      DisplayMemberPath="Name" FontFamily="Segoe UI"/>
+                      DisplayMemberPath="Name" 
+                      Style="{StaticResource MaterialComboBox}"/>
         </Grid>
 
         <!-- Açıklama -->
@@ -166,16 +168,20 @@
                 <ColumnDefinition Width="300"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Açıklama:" FontWeight="Bold" FontSize="16" FontFamily="Segoe UI"/>
-            <TextBox Grid.Column="1" Width="300" Height="80" FontSize="16" 
-                     Text="{Binding CurrentProduct.Description, UpdateSourceTrigger=PropertyChanged}" 
-                     AcceptsReturn="True" FontFamily="Segoe UI" Padding="8"/>
+            <TextBox Grid.Column="1" Width="300" Height="80" 
+                     Text="{Binding NewProduct.Description, UpdateSourceTrigger=PropertyChanged}" 
+                     AcceptsReturn="True" 
+                     Style="{StaticResource MaterialTextBox}"
+                     VerticalContentAlignment="Top"/>
         </Grid>
 
         <!-- Butonlar -->
         <StackPanel Grid.Row="11" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,5,-180">
-            <Button Content="İptal" Width="140" Height="50" Margin="10" Command="{Binding CancelCommand}" 
+            <Button Content="İptal" Width="140" Height="50" Margin="0,0,10,0" 
+                    Command="{Binding CancelCommand}" 
                     Style="{StaticResource CancelButtonStyle}"/>
-            <Button Content="Kaydet" Width="140" Height="50" Margin="10" Command="{Binding SaveProductCommand}" 
+            <Button Content="Kaydet" Width="140" Height="50" 
+                    Command="{Binding SaveProductCommand}" 
                     Style="{StaticResource SaveButtonStyle}"/>
         </StackPanel>
     </Grid>

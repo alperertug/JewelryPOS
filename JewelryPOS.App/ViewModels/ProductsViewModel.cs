@@ -72,31 +72,31 @@ namespace JewelryPOS.App.ViewModels
 
         private void AddProduct()
         {
-            var addProductView = new AddProductView
+            var productAddView = new ProductAddView
             {
-                DataContext = new AddProductViewModel(_productService, _categoryService)
+                DataContext = new ProductAddViewModel(_productService, _categoryService)
             };
-            addProductView.ShowDialog();
+            productAddView.ShowDialog();
         }
 
         private void ManageCategories()
         {
-            var manageCategoriesView = new ManageCategoriesView
+            var categoriesView = new CategoriesView
             {
-                DataContext = new ManageCategoriesViewModel(_categoryService)
+                DataContext = new CategoriesViewModel(_categoryService)
             };
-            manageCategoriesView.ShowDialog();
+            categoriesView.ShowDialog();
         }
 
         private void EditProduct(Product product)
         {
             if (product == null) return;
 
-            var editProductView = new EditProductView
+            var productEditView = new ProductEditView
             {
-                DataContext = new EditProductViewModel(_productService, _categoryService, product)
+                DataContext = new ProductEditViewModel(_productService, _categoryService, product)
             };
-            editProductView.ShowDialog();
+            productEditView.ShowDialog();
 
             LoadProducts();
         }

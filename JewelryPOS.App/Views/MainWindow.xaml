@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="Jewelry POS"
         WindowState="Maximized"
-        MinWidth="1280" MinHeight="720"
+        MinWidth="980" MinHeight="840"
         Background="#FAFAFA">
     <Grid>
         <!-- Sol Menü -->
@@ -20,25 +20,25 @@
 
                 <Button Style="{StaticResource MenuButtonStyle}" Command="{Binding OpenHomeCommand}">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="🏚" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBlock Text="🏚" FontSize="18" VerticalAlignment="Center" Margin="0,0,10,0"/>
                         <TextBlock Text="Ana Sayfa" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
                 <Button Style="{StaticResource MenuButtonStyle}" Command="{Binding OpenProductsCommand}">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="🛒" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBlock Text="💎" FontSize="18" VerticalAlignment="Center" Margin="0,0,10,0"/>
                         <TextBlock Text="Ürünler" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
                 <Button Style="{StaticResource MenuButtonStyle}" Command="{Binding OpenSalesCommand}">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="💰" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBlock Text="💰" FontSize="18" VerticalAlignment="Center" Margin="0,0,10,0"/>
                         <TextBlock Text="Satışlar" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
                 <Button Style="{StaticResource MenuButtonStyle}" Command="{Binding OpenSettingsCommand}">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="⚙️" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBlock Text="🛠️" FontSize="18" VerticalAlignment="Center" Margin="0,0,10,0"/>
                         <TextBlock Text="Ayarlar" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
@@ -57,7 +57,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Sol Taraf: Ana Sayfa Başlığı -->
-                <TextBlock Text="Kullanıcı: " FontSize="18" FontWeight="Bold" FontFamily="Segoe UI" 
+                <TextBlock Text="Kullanıcı: " FontSize="18" FontFamily="Segoe UI" 
                            Foreground="#333333" VerticalAlignment="Center" Grid.Column="0"/>
                 <TextBlock Text="{Binding LoggedInUser}" FontSize="18" FontWeight="Bold" FontFamily="Segoe UI" 
                            Foreground="#333333" VerticalAlignment="Center" Grid.Column="0" Padding="80"/>

@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace JewelryPOS.App.Views
 {
     /// <summary>
-    /// Interaction logic for ManageCategoriesView.xaml
+    /// Interaction logic for CategoriesView.xaml
     /// </summary>
-    public partial class ManageCategoriesView : Window
+    public partial class CategoriesView : Window
     {
-        public ManageCategoriesView()
+        public CategoriesView()
         {
             InitializeComponent();
         }

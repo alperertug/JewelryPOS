@@ -4,7 +4,9 @@ using JewelryPOS.App.Data.Interface;
 using JewelryPOS.App.Services;
 using JewelryPOS.App.Services.Interfaces;
 using JewelryPOS.App.ViewModels;
+using JewelryPOS.App.ViewModels.Settings;
 using JewelryPOS.App.Views;
+using JewelryPOS.App.Views.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,7 +38,7 @@ namespace JewelryPOS.App
             // **Database Context**
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json") 
+                .AddJsonFile("appsettings.json")
                 .Build();
 
             services.AddDbContext<AppDbContext>(options =>
@@ -58,24 +60,30 @@ namespace JewelryPOS.App
             services.AddScoped<RegisterViewModel>();
             services.AddScoped<MainViewModel>();
             services.AddScoped<ProductsViewModel>();
-            services.AddScoped<AddProductViewModel>();
-            services.AddScoped<ManageCategoriesViewModel>();
-            services.AddScoped<EditProductViewModel>();
+            services.AddScoped<ProductAddViewModel>();
+            services.AddScoped<CategoriesViewModel>();
+            services.AddScoped<ProductEditViewModel>();
             services.AddScoped<SettingsViewModel>();
             services.AddScoped<HomeViewModel>();
             services.AddScoped<CustomerViewModel>();
+            services.AddScoped<UserSettingsViewModel>();
 
             // **Views**
             services.AddScoped<LoginWindow>();
             services.AddScoped<RegisterWindow>();
             services.AddScoped<MainWindow>();
             services.AddScoped<ProductsView>();
-            services.AddScoped<AddProductView>();
-            services.AddScoped<EditProductView>();
-            services.AddScoped<ManageCategoriesView>();
-            services.AddScoped<SettingsWindow>();
+            services.AddScoped<ProductAddView>();
+            services.AddScoped<ProductEditView>();
+            services.AddScoped<CategoriesView>();
+            services.AddScoped<SettingsView>();
             services.AddScoped<HomeView>();
             services.AddScoped<CustomerView>();
+            services.AddScoped<UserSettingsView>(provider =>
+            {
+                var viewModel = provider.GetService<UserSettingsViewModel>();
+                return new UserSettingsView(viewModel);
+            });
         }
     }
 }

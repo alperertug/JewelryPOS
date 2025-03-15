@@ -15,7 +15,8 @@ namespace JewelryPOS.App.Helpers
                 return "Fiyat Yok";
 
             string symbol = GetCurrencySymbol(currency);
-            return $"{symbol}{price:F2}";
+
+            return $"{symbol}{price.ToString("N2", CultureInfo.GetCultureInfo("tr-TR"))}";
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

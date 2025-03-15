@@ -1,4 +1,5 @@
-﻿using JewelryPOS.App.Models;
+﻿using JewelryPOS.App.Enums;
+using JewelryPOS.App.Models;
 
 namespace JewelryPOS.App.ViewModels
 {
@@ -7,35 +8,30 @@ namespace JewelryPOS.App.ViewModels
         private string _productName;
         private decimal _originalPrice;
         private decimal? _discountedPrice;
+        private Currency _currency;
 
         public string ProductName
         {
             get => _productName;
-            set
-            {
-                _productName = value;
-                OnPropertyChanged(nameof(ProductName));
-            }
+            set { _productName = value; OnPropertyChanged(nameof(ProductName)); }
         }
 
         public decimal OriginalPrice
         {
             get => _originalPrice;
-            set
-            {
-                _originalPrice = value;
-                OnPropertyChanged(nameof(OriginalPrice));
-            }
+            set { _originalPrice = value; OnPropertyChanged(nameof(OriginalPrice)); }
         }
 
         public decimal? DiscountedPrice
         {
             get => _discountedPrice;
-            set
-            {
-                _discountedPrice = value;
-                OnPropertyChanged(nameof(DiscountedPrice));
-            }
+            set { _discountedPrice = value; OnPropertyChanged(nameof(DiscountedPrice)); }
+        }
+
+        public Currency Currency
+        {
+            get => _currency;
+            set { _currency = value; OnPropertyChanged(nameof(Currency)); }
         }
 
         public void UpdateProduct(Product product)
@@ -43,6 +39,7 @@ namespace JewelryPOS.App.ViewModels
             ProductName = product.Name;
             OriginalPrice = product.Price;
             DiscountedPrice = product.DiscountPrice > 0 ? product.DiscountPrice : null;
+            Currency = product.Currency;
         }
 
         public void ClearProduct()
@@ -50,6 +47,7 @@ namespace JewelryPOS.App.ViewModels
             ProductName = "Ürün Seçilmedi";
             OriginalPrice = 0;
             DiscountedPrice = null;
+            Currency = Currency.TRY;
         }
     }
 }

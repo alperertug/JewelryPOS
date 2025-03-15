@@ -1,11 +1,18 @@
 ﻿using JewelryPOS.App.Helpers;
+using JewelryPOS.App.Services.Interfaces;
+using JewelryPOS.App.ViewModels.Settings;
+using JewelryPOS.App.Views.Settings;
+using Microsoft.Extensions.DependencyInjection;
+using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace JewelryPOS.App.ViewModels
+namespace JewelryPOS.App.ViewModels.Settings
 {
     public class SettingsViewModel : BaseViewModel
     {
         private object _currentContent;
+        private readonly IUserService _userService;
+
         public object CurrentContent
         {
             get => _currentContent;
@@ -19,8 +26,9 @@ namespace JewelryPOS.App.ViewModels
         public ICommand ShowUserSettingsCommand { get; }
         public ICommand ShowAppSettingsCommand { get; }
 
-        public SettingsViewModel()
+        public SettingsViewModel(IUserService userService)
         {
+            _userService = userService;
             ShowUserSettingsCommand = new RelayCommand<object>((_) => ShowUserSettings());
             ShowAppSettingsCommand = new RelayCommand<object>((_) => ShowAppSettings());
 
@@ -30,24 +38,16 @@ namespace JewelryPOS.App.ViewModels
 
         private void ShowUserSettings()
         {
-            CurrentContent = new UserSettingsViewModel(); // Kullanıcı Ayarları içeriği
+            // DI container üzerinden UserSettingsViewModel al
+            var userSettingsViewModel = App.ServiceProvider.GetService<UserSettingsViewModel>();
+            var userSettingsView = new UserSettingsView(userSettingsViewModel);
+            CurrentContent = userSettingsView;
         }
 
         private void ShowAppSettings()
         {
-            CurrentContent = new AppSettingsViewModel(); // Uygulama Ayarları içeriği
+            // Uygulama Ayarları için bir ViewModel ve View (henüz implemente edilmedi)
+            CurrentContent = new AppSettingsViewModel();
         }
-    }
-
-    // Örnek Kullanıcı Ayarları ViewModel
-    public class UserSettingsViewModel : BaseViewModel
-    {
-        public string UserSettingsMessage { get; } = "Burası Kullanıcı Ayarları bölümü.";
-    }
-
-    // Örnek Uygulama Ayarları ViewModel
-    public class AppSettingsViewModel : BaseViewModel
-    {
-        public string AppSettingsMessage { get; } = "Burası Uygulama Ayarları bölümü.";
     }
 }
