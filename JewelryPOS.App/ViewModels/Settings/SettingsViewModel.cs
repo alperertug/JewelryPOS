@@ -46,8 +46,9 @@ namespace JewelryPOS.App.ViewModels.Settings
 
         private void ShowAppSettings()
         {
-            // Uygulama Ayarları için bir ViewModel ve View (henüz implemente edilmedi)
-            CurrentContent = new AppSettingsViewModel();
+            var appSettingsView = new AppSettingsView();
+            appSettingsView.DataContext = new AppSettingsViewModel();
+            CurrentContent = appSettingsView;
         }
     }
 }

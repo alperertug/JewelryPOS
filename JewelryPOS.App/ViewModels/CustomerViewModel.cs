@@ -1,53 +1,89 @@
-﻿using JewelryPOS.App.Enums;
-using JewelryPOS.App.Models;
+﻿using JewelryPOS.App.Models;
 
 namespace JewelryPOS.App.ViewModels
 {
     public class CustomerViewModel : BaseViewModel
     {
-        private string _productName;
-        private decimal _originalPrice;
-        private decimal? _discountedPrice;
-        private Currency _currency;
+        private Cart _cart;
+        public string CustomerViewImagePath => Properties.Settings.Default.CustomerViewImagePath;
 
-        public string ProductName
+        public CustomerViewModel()
         {
-            get => _productName;
-            set { _productName = value; OnPropertyChanged(nameof(ProductName)); }
+            Properties.Settings.Default.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(Properties.Settings.Default.CustomerViewImagePath))
+                {
+                    OnPropertyChanged(nameof(CustomerViewImagePath));
+                }
+            };
         }
 
-        public decimal OriginalPrice
+        public Cart Cart
         {
-            get => _originalPrice;
-            set { _originalPrice = value; OnPropertyChanged(nameof(OriginalPrice)); }
+            get => _cart;
+            set
+            {
+                if (_cart != null)
+                {
+                    // Eski koleksiyonun olaylarını kaldır
+                    _cart.Items.CollectionChanged -= Items_CollectionChanged;
+                    foreach (var item in _cart.Items)
+                    {
+                        item.PropertyChanged -= CartItem_PropertyChanged;
+                    }
+                }
+
+                _cart = value;
+
+                if (_cart != null)
+                {
+                    // Yeni koleksiyonun olaylarını ekle
+                    _cart.Items.CollectionChanged += Items_CollectionChanged;
+                    foreach (var item in _cart.Items)
+                    {
+                        item.PropertyChanged += CartItem_PropertyChanged;
+                    }
+                }
+
+                OnPropertyChanged(nameof(Cart));
+            }
         }
 
-        public decimal? DiscountedPrice
+        private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            get => _discountedPrice;
-            set { _discountedPrice = value; OnPropertyChanged(nameof(DiscountedPrice)); }
+            if (e.OldItems != null)
+            {
+                foreach (CartItem item in e.OldItems)
+                {
+                    item.PropertyChanged -= CartItem_PropertyChanged;
+                }
+            }
+
+            if (e.NewItems != null)
+            {
+                foreach (CartItem item in e.NewItems)
+                {
+                    item.PropertyChanged += CartItem_PropertyChanged;
+                }
+            }
         }
 
-        public Currency Currency
+        private void CartItem_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            get => _currency;
-            set { _currency = value; OnPropertyChanged(nameof(Currency)); }
+            // Toplamlar zaten Cart sınıfında güncellendiği için ek bir işlem gerekmiyor
         }
 
-        public void UpdateProduct(Product product)
+        public void UpdateCart(Cart cart)
         {
-            ProductName = product.Name;
-            OriginalPrice = product.Price;
-            DiscountedPrice = product.DiscountPrice > 0 ? product.DiscountPrice : null;
-            Currency = product.Currency;
+            if (cart != _cart) // Döngüsel çağrıyı önlemek için kontrol
+            {
+                Cart = cart;
+            }
         }
 
-        public void ClearProduct()
+        public void ClearCart()
         {
-            ProductName = "Ürün Seçilmedi";
-            OriginalPrice = 0;
-            DiscountedPrice = null;
-            Currency = Currency.TRY;
+            Cart = new Cart(); // Yeni bir Cart nesnesi oluştur
         }
     }
 }

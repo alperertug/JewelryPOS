@@ -9,7 +9,9 @@
             <converters:TypeToVisibilityConverter x:Key="TypeToVisibilityConverter"/>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
             <converters:CurrencyToFormattedPriceConverter x:Key="CurrencyToFormattedPriceConverter" />
-
+            <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter" />
+            <converters:StringToImageSourceConverter x:Key="StringToImageSourceConverter" />
+            
             <!-- Temel Button Stil -->
             <Style TargetType="Button" x:Key="ActionButtonStyle">
                 <Setter Property="Padding" Value="8,4"/>
@@ -199,6 +201,19 @@
                 </Setter>
             </Style>
 
+            <Style x:Key="AddToCartButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🧺" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <TextBlock Text="Sepete Ekle" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
             <Style x:Key="CleanButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
                 <Setter Property="ContentTemplate">
                     <Setter.Value>
@@ -206,6 +221,19 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="🧹" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                 <TextBlock Text="Temizle" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="CompleteSaleButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="💲" FontSize="16" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <TextBlock Text="Satış Yap" VerticalAlignment="Center"/>
                             </StackPanel>
                         </DataTemplate>
                     </Setter.Value>

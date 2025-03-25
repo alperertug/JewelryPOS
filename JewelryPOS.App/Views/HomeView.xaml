@@ -6,60 +6,35 @@
              mc:Ignorable="d"
              Background="#FAFAFA">
     <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
 
-        <!-- Barkod Giriş Alanı -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
-            <TextBox Text="{Binding Barcode, UpdateSourceTrigger=PropertyChanged}" 
-                     Style="{StaticResource MaterialTextBox}" Width="200" Height="40" Margin="0,0,10,0"/>
-            <Button Command="{Binding ReadBarcodeCommand}" Style="{StaticResource BarkodButtonStyle}"
-                    Content="Barkodu Oku" Background="#28A745" Foreground="White" Width="200" Height="40" />
-            <Button Command="{Binding ClearCustomerViewCommand}" Style="{StaticResource CleanButtonStyle}"
-                    Content="Temizle" Background="#DC3545" Foreground="White" Width="100" Height="40" Margin="10,0,0,0"/>
-        </StackPanel>
+        <!-- Sol Taraf: Ürün Kartı -->
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+            <!-- Barkod Giriş Alanı -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                <TextBox Text="{Binding Barcode, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource MaterialTextBox}" Width="200" Height="50" FontSize="24" Margin="0,0,10,0"/>
+                <Button Command="{Binding ReadBarcodeCommand}" Content="Barkodu Oku" 
+                        Style="{StaticResource BarkodButtonStyle}"
+                        Background="#28A745" Foreground="White" Width="200" Height="50"/>
+            </StackPanel>
 
-        <!-- Modern Kart Görünümü: Ürün Detayları ve İndirim -->
-        <Border Grid.Row="1"
-        Background="#FFFFFF"
-        CornerRadius="16"
-        Padding="24"
-        Margin="10"
-        MaxWidth="900" MinWidth="520"
-        HorizontalAlignment="Center"
-        Visibility="{Binding SelectedProduct, Converter={StaticResource NullToVisibilityConverter}}">
-            <!-- Kart Gölgesi -->
-            <Border.Effect>
-                <DropShadowEffect Color="#888888"
-                          Direction="270"
-                          ShadowDepth="5"
-                          BlurRadius="10"
-                          Opacity="0.25"/>
-            </Border.Effect>
-
-            <StackPanel Orientation="Vertical">
-                <!-- Ürün Başlığı -->
-                <TextBlock Text="{Binding SelectedProduct.Name}"
-                   FontSize="26"
-                   FontWeight="Bold"
-                   Foreground="#333"
-                   HorizontalAlignment="Center"
-                   Margin="0,0,0,40"/>
-
-                <!-- Ürün Özellikleri -->
-                <StackPanel Orientation="Vertical">
-                    <!-- Fiyat ve İndirimli Fiyat Alanı -->
+            <!-- Ürün Kartı -->
+            <Border Background="#FFFFFF" CornerRadius="16" Padding="24" Margin="0" MaxWidth="900" MinWidth="520"
+                    Visibility="{Binding SelectedProduct, Converter={StaticResource NullToVisibilityConverter}}">
+                <Border.Effect>
+                    <DropShadowEffect Color="#888888" Direction="270" ShadowDepth="5" BlurRadius="10" Opacity="0.25"/>
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="{Binding SelectedProduct.Name}" FontSize="26" FontWeight="Bold" Foreground="#333" 
+                               HorizontalAlignment="Center" Margin="0,0,0,40"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,40">
-                        <!-- Fiyat -->
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0,0,40,0">
-                            <TextBlock Text="Fiyat" 
-                               FontSize="26" 
-                               FontWeight="SemiBold" 
-                               Foreground="#666"
-                               HorizontalAlignment="Center"
-                               Margin="0,0,0,5"/>
+                        <StackPanel Orientation="Vertical" Margin="0,0,40,0">
+                            <TextBlock Text="Fiyat" FontSize="26" FontWeight="SemiBold" Foreground="#666" 
+                                       HorizontalAlignment="Center" Margin="0,0,0,5"/>
                             <TextBlock>
                                 <TextBlock.Text>
                                     <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
@@ -71,14 +46,9 @@
                                 <TextBlock.Foreground>#333</TextBlock.Foreground>
                             </TextBlock>
                         </StackPanel>
-                        <!-- İndirimli Fiyat -->
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <TextBlock Text="İndirimli Fiyat" 
-                               FontSize="26" 
-                               FontWeight="SemiBold" 
-                               Foreground="#666"
-                               HorizontalAlignment="Center"
-                               Margin="0,0,0,5"/>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="İndirimli Fiyat" FontSize="26" FontWeight="SemiBold" Foreground="#666" 
+                                       HorizontalAlignment="Center" Margin="0,0,0,5"/>
                             <TextBlock Visibility="{Binding SelectedProduct.DiscountPrice, Converter={StaticResource NullToVisibilityConverter}}">
                                 <TextBlock.Text>
                                     <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
@@ -91,95 +61,209 @@
                             </TextBlock>
                         </StackPanel>
                     </StackPanel>
-
-                    <!-- Diğer Özellikler: Stok, Karat, Ağırlık -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,40">
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0,0,40,0">
-                            <TextBlock Text="Stok" 
-                               FontSize="20" 
-                               FontWeight="SemiBold" 
-                               Foreground="#666" 
-                               HorizontalAlignment="Center"
-                               Margin="0,0,0,5"/>
-                            <TextBlock Text="{Binding SelectedProduct.Stock}" 
-                               FontSize="22" 
-                               Foreground="#333" 
-                               HorizontalAlignment="Center"/>
+                        <StackPanel Orientation="Vertical" Margin="0,0,40,0">
+                            <TextBlock Text="Stok" FontSize="20" FontWeight="SemiBold" Foreground="#666" 
+                                       HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding SelectedProduct.Stock}" FontSize="22" Foreground="#333"/>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0,0,40,0">
-                            <TextBlock Text="Karat" 
-                               FontSize="20" 
-                               FontWeight="SemiBold" 
-                               Foreground="#666" 
-                               HorizontalAlignment="Center"
-                               Margin="0,0,0,5"/>
-                            <TextBlock Text="{Binding SelectedProduct.Karat}" 
-                               FontSize="22" 
-                               Foreground="#333" 
-                               HorizontalAlignment="Center"/>
+                        <StackPanel Orientation="Vertical" Margin="0,0,40,0">
+                            <TextBlock Text="Karat" FontSize="20" FontWeight="SemiBold" Foreground="#666" 
+                                       HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding SelectedProduct.Karat}" FontSize="22" Foreground="#333"/>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <TextBlock Text="Ağırlık" 
-                               FontSize="20" 
-                               FontWeight="SemiBold" 
-                               Foreground="#666" 
-                               HorizontalAlignment="Center"
-                               Margin="0,0,0,5"/>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Ağırlık" FontSize="20" FontWeight="SemiBold" Foreground="#666" 
+                                       HorizontalAlignment="Center" Margin="0,0,0,5"/>
                             <TextBlock Text="{Binding SelectedProduct.Weight, StringFormat='{}{0} g'}" 
-                               FontSize="22" 
-                               Foreground="#333"
-                               HorizontalAlignment="Center"/>
+                                       FontSize="22" Foreground="#333"/>
                         </StackPanel>
                     </StackPanel>
-                </StackPanel>
-
-                <!-- Ayırıcı Çizgi -->
-                <Border Background="#E0E0E0" Height="1" Margin="0,0,0,40"/>
-
-                <!-- İndirim Alanı -->
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                    <TextBlock Text="İndirim Uygula" 
-                       FontSize="24" 
-                       FontWeight="Bold" 
-                       Foreground="#333" 
-                       HorizontalAlignment="Center"
-                       Margin="0,0,0,35"/>
-
-                    <!-- İndirim Tipi Seçimi -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,15">
-                        <CheckBox IsChecked="{Binding IsAmountDiscount}" 
-                          Content="Tutar" 
-                          FontSize="20" 
-                          Foreground="#333" 
-                          Margin="0,0,20,0"
-                          VerticalAlignment="Center"
-                          VerticalContentAlignment="Center"/>
-                        <CheckBox IsChecked="{Binding IsPercentageDiscount}" 
-                          Content="Yüzde" 
-                          FontSize="20" 
-                          Foreground="#333" 
-                          VerticalAlignment="Center"
-                          VerticalContentAlignment="Center"/>
+                    <Border Background="#E0E0E0" Height="1" Margin="0,0,0,40"/>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <TextBlock Text="İndirim Uygula" FontSize="24" FontWeight="Bold" Foreground="#333" 
+                                   HorizontalAlignment="Center" Margin="0,0,0,35"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,15">
+                            <CheckBox IsChecked="{Binding IsAmountDiscount}" Content="Tutar" FontSize="20" Foreground="#333" 
+                                      Margin="0,0,20,0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                            <CheckBox IsChecked="{Binding IsPercentageDiscount}" Content="Yüzde" FontSize="20" Foreground="#333" 
+                                      VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBox Text="{Binding DiscountInput, UpdateSourceTrigger=PropertyChanged}" 
+                                     Width="150" Height="50" FontSize="24" Style="{StaticResource MaterialTextBox}" 
+                                     Foreground="#333" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" 
+                                     Margin="0,0,15,0"/>
+                            <Button Command="{Binding ApplyDiscountCommand}" 
+                                    Style="{StaticResource ApplyDiscountButtonStyle}"
+                                    Background="#007BFF" Foreground="White" Width="160" Height="50"/>
+                        </StackPanel>
                     </StackPanel>
-
-                    <!-- İndirim Girişi ve Uygulama Butonu -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBox Text="{Binding DiscountInput, UpdateSourceTrigger=PropertyChanged}" 
-                         Width="150" 
-                         Height="45" 
-                         Padding="5"
-                         FontSize="16"
-                         Style="{StaticResource MaterialTextBox}"
-                         Foreground="#333"
-                         VerticalContentAlignment="Center"
-                         HorizontalContentAlignment="Right"
-                         Margin="0,0,15,0"/>
-                        <Button Command="{Binding ApplyDiscountCommand}"
-                        Style="{StaticResource ApplyDiscountButtonStyle}"
-                        Background="#007BFF" Foreground="White" Width="160" Height="40"/>
-                    </StackPanel>
+                    <Button Command="{Binding AddToCartCommand}" 
+                            Style="{StaticResource AddToCartButtonStyle}"
+                            Background="#28A745" Foreground="White" Width="200" Height="50" Margin="0,80,0,0"/>
                 </StackPanel>
+            </Border>
+        </StackPanel>
+
+        <!-- Sağ Taraf: Sepet Tablosu -->
+        <StackPanel Grid.Column="1" Orientation="Vertical" Margin="20,0,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,20">
+                <Button Command="{Binding ClearCartCommand}" 
+                        Style="{StaticResource CleanButtonStyle}"
+                        Background="#DC3545" Foreground="White" Width="150" Height="50" Margin="0,0,10,0" Content="Sepeti Temizle"/>
+                <Button Command="{Binding CheckoutCommand}"
+                        Style="{StaticResource CompleteSaleButtonStyle}"
+                        Background="#28A745" Foreground="White" Width="150" Height="50" Content="Satış Yap"/>
             </StackPanel>
-        </Border>
+
+            <Border Background="#FFFFFF" CornerRadius="8" Padding="10" Margin="0,0,0,0">
+                <Border.Effect>
+                    <DropShadowEffect Color="#888888" Direction="270" ShadowDepth="5" BlurRadius="10" Opacity="0.25"/>
+                </Border.Effect>
+                <StackPanel>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="400">
+                        <DataGrid x:Name="CartDataGrid" ItemsSource="{Binding Cart.Items}" AutoGenerateColumns="False" 
+                                  CanUserAddRows="False" CanUserDeleteRows="False" SelectionMode="Single"
+                                  Background="Transparent" BorderThickness="0" GridLinesVisibility="Horizontal" 
+                                  HorizontalGridLinesBrush="#E0E0E0" 
+                                  RowBackground="#F9F9F9" AlternatingRowBackground="#FFFFFF" 
+                                  FontSize="16" Margin="0,0,0,10">
+                            <DataGrid.Resources>
+                                <!-- Header Stili -->
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#F5F5F5"/>
+                                    <Setter Property="Foreground" Value="#333"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="FontSize" Value="16"/>
+                                    <Setter Property="Padding" Value="10,5"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                    <Setter Property="BorderBrush" Value="#E0E0E0"/>
+                                </Style>
+                                <!-- Hücre Stili -->
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Padding" Value="10,5"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                </Style>
+                                <!-- Satır Stili -->
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <!-- Ürün Adı -->
+                                <DataGridTextColumn Header="Ürün Adı" Binding="{Binding Product.Name}" IsReadOnly="True" 
+                                                    Width="*" MinWidth="150">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.EditingElementStyle>
+                                        <Style TargetType="TextBox">
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.EditingElementStyle>
+                                </DataGridTextColumn>
+
+                                <!-- Miktar -->
+                                <DataGridTextColumn Header="Miktar" Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                                    Width="0.4*" MinWidth="80">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.EditingElementStyle>
+                                        <Style TargetType="TextBox">
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                            <Setter Property="TextAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.EditingElementStyle>
+                                </DataGridTextColumn>
+
+                                <!-- Fiyat -->
+                                <DataGridTextColumn Header="Fiyat" Width="*" MinWidth="120" IsReadOnly="True">
+                                    <DataGridTextColumn.Binding>
+                                        <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
+                                            <Binding Path="Product.Price"/>
+                                            <Binding Path="Product.Currency"/>
+                                        </MultiBinding>
+                                    </DataGridTextColumn.Binding>
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+
+                                <!-- İndirimli Fiyat -->
+                                <DataGridTextColumn Header="İndirimli Fiyat" Width="*" MinWidth="150" IsReadOnly="True">
+                                    <DataGridTextColumn.Binding>
+                                        <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
+                                            <Binding Path="DiscountedPrice"/>
+                                            <Binding Path="Product.Currency"/>
+                                        </MultiBinding>
+                                    </DataGridTextColumn.Binding>
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                            <Setter Property="Foreground" Value="#4CAF50"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.EditingElementStyle>
+                                        <Style TargetType="TextBox">
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                            <Setter Property="Foreground" Value="#4CAF50"/>
+                                        </Style>
+                                    </DataGridTextColumn.EditingElementStyle>
+                                </DataGridTextColumn>
+
+                                <!-- Sil Butonu -->
+                                <DataGridTemplateColumn Header="Sil" Width="80" MinWidth="80">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="Sil" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.RemoveItemCommand}" 
+                                                    CommandParameter="{Binding}" Background="#DC3545" Foreground="White" Width="70" Height="30" 
+                                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </ScrollViewer>
+
+                    <!-- Toplam Tutar Bilgileri -->
+                    <StackPanel Orientation="Vertical" Margin="0,20,0,0" HorizontalAlignment="Right"
+            Visibility="{Binding Cart.ItemsCount, Converter={StaticResource IntToVisibilityConverter}}">
+                        <TextBlock FontSize="18" FontWeight="Bold" Foreground="#333">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
+                                    <Binding Path="Cart.TotalPrice"/>
+                                    <Binding Path="Cart.Items[0].Product.Currency" FallbackValue="TRY"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock FontSize="18" FontWeight="Bold" Foreground="#4CAF50">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
+                                    <Binding Path="Cart.DiscountedTotalPrice"/>
+                                    <Binding Path="Cart.Items[0].Product.Currency" FallbackValue="TRY"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock FontSize="18" FontWeight="Bold" Foreground="#FF9800">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
+                                    <Binding Path="Cart.TotalDiscount"/>
+                                    <Binding Path="Cart.Items[0].Product.Currency" FallbackValue="TRY"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
     </Grid>
 </UserControl>

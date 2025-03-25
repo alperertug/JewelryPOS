@@ -13,47 +13,141 @@
             <Border.Effect>
                 <DropShadowEffect Color="#B0B0B0" Direction="270" ShadowDepth="2" Opacity="0.2"/>
             </Border.Effect>
-            <TextBlock Text="Müşteri Ekranı" FontSize="18" FontWeight="Bold" FontFamily="Segoe UI" 
-                       Foreground="#333333" VerticalAlignment="Center"/>
+            <TextBlock Text="Müşteri Ekranı" FontSize="18" FontWeight="Bold" Foreground="#333333" 
+                       VerticalAlignment="Center"/>
         </Border>
-
+                
         <!-- İçerik Alanı -->
-        <Border Margin="20,70,20,20" Background="#FFFFFF" CornerRadius="10" Padding="30">
+        <Border Margin="20,70,20,160" Background="#FFFFFF" CornerRadius="10" Padding="30">
             <Border.Effect>
                 <DropShadowEffect Color="#B0B0B0" Direction="270" ShadowDepth="2" Opacity="0.2"/>
             </Border.Effect>
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="{Binding ProductName}" Style="{StaticResource FormHeaderStyle}" 
-                           Foreground="#333333" FontSize="60" HorizontalAlignment="Center"/>
-                <TextBlock>
-                    <TextBlock.Text>
-                        <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
-                            <Binding Path="OriginalPrice" />
-                            <Binding Path="Currency" />
-                        </MultiBinding>
-                    </TextBlock.Text>
-                    <TextBlock.FontSize>60</TextBlock.FontSize>
-                    <TextBlock.FontFamily>Segoe UI</TextBlock.FontFamily>
-                    <TextBlock.Foreground>#333333</TextBlock.Foreground>
-                    <TextBlock.Margin>0,20,0,0</TextBlock.Margin>
-                    <TextBlock.HorizontalAlignment>Center</TextBlock.HorizontalAlignment>
-                </TextBlock>
-                <TextBlock>
-                    <TextBlock.Text>
-                        <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
-                            <Binding Path="DiscountedPrice" />
-                            <Binding Path="Currency" />
-                        </MultiBinding>
-                    </TextBlock.Text>
-                    <TextBlock.FontSize>54</TextBlock.FontSize>
-                    <TextBlock.FontFamily>Segoe UI</TextBlock.FontFamily>
-                    <TextBlock.Foreground>#4CAF50</TextBlock.Foreground>
-                    <TextBlock.Margin>0,20,0,0</TextBlock.Margin>
-                    <TextBlock.HorizontalAlignment>Center</TextBlock.HorizontalAlignment>
-                    <TextBlock.Visibility>
-                        <Binding Path="DiscountedPrice" Converter="{StaticResource NullToVisibilityConverter}"/>
-                    </TextBlock.Visibility>
-                </TextBlock>
+            
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                <!-- Görsel Alanı -->
+                <Image Source="{Binding CustomerViewImagePath, Converter={StaticResource StringToImageSourceConverter}}" 
+       Width="300" 
+       Height="300" 
+                       Opacity="0.9"
+       HorizontalAlignment="Center" 
+       VerticalAlignment="Top" 
+       Margin="0,0,0,50"/>
+                <!--<TextBlock Text="Sepet" FontSize="24" FontWeight="Bold" Foreground="#333" Margin="0,0,0,20"/>-->
+
+                <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="400">
+                    <ItemsControl ItemsSource="{Binding Cart.Items}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <!-- Card -->
+                                    <Border Background="#FFFFFF" CornerRadius="8" Padding="15" Margin="0,0,0,20">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="#888888" Direction="270" ShadowDepth="5" BlurRadius="10" Opacity="0.25"/>
+                                        </Border.Effect>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <!-- Ürün Adı Sütunları -->
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <!-- Miktar Sütunları -->
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <!-- Fiyat Sütunları -->
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <!-- İndirimli Fiyat Sütunu (Genişletilebilir ve sağa hizalı) -->
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Ürün Adı -->
+                                            <TextBlock Text="Ürün Adı: " Grid.Column="0" FontSize="24" Foreground="#666" FontWeight="SemiBold"/>
+                                            <TextBlock Text="{Binding Product.Name}" Grid.Column="1" FontSize="24" Foreground="#333"/>
+
+                                            <!-- Miktar -->
+                                            <TextBlock Text="Miktar: " Grid.Column="2" FontSize="24" Foreground="#666" FontWeight="SemiBold" Margin="30,0,0,0"/>
+                                            <TextBlock Text="{Binding Quantity}" Grid.Column="3" FontSize="24" Foreground="#333" Margin="0,0,60,0"/>
+
+                                            <!-- Fiyat -->
+                                            <TextBlock Text="Fiyat: " Grid.Column="4" FontSize="24" Foreground="#666" FontWeight="SemiBold"/>
+                                            <TextBlock Grid.Column="5" FontSize="24" Foreground="#333">
+                                                <TextBlock.Text>
+                                                    <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
+                                                        <Binding Path="Product.Price"/>
+                                                        <Binding Path="Product.Currency"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+
+                                            <!-- İndirimli Fiyat (Sağa Hizalı) -->
+                                            <TextBlock Text="İndirimli Fiyat: " Grid.Column="6" FontSize="24" Foreground="#666" FontWeight="SemiBold" 
+                                                       HorizontalAlignment="Right" Margin="0,0,10,0"
+                                                       Visibility="{Binding DiscountedPrice, Converter={StaticResource NullToVisibilityConverter}}"/>
+                                            <TextBlock Grid.Column="7" FontSize="24" Foreground="#4CAF50" HorizontalAlignment="Right"
+                                                       Visibility="{Binding DiscountedPrice, Converter={StaticResource NullToVisibilityConverter}}">
+                                                <TextBlock.Text>
+                                                    <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
+                                                        <Binding Path="DiscountedPrice"/>
+                                                        <Binding Path="Product.Currency"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>                
+            </StackPanel>
+        </Border>
+        <Border Margin="20,880,20,20" Background="#FFFFFF" CornerRadius="10" Padding="0">
+            <Border.Effect>
+                <DropShadowEffect Color="#B0B0B0" Direction="270" ShadowDepth="2" Opacity="0.2"/>
+            </Border.Effect>
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                <!-- Toplam Tutar Bilgileri -->
+                <StackPanel Orientation="Vertical" Margin="0,20,20,0" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+            Visibility="{Binding Cart.ItemsCount, Converter={StaticResource IntToVisibilityConverter}}">
+                    <!-- Toplam Tutar -->
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Toplam Tutar: " FontSize="22" FontWeight="Bold" Foreground="#333"/>
+                        <TextBlock FontSize="22" FontWeight="Bold" Foreground="#333">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
+                                    <Binding Path="Cart.TotalPrice"/>
+                                    <Binding Path="Cart.Items[0].Product.Currency" FallbackValue="TRY"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!-- İndirimli Toplam Tutar -->
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="İndirimli Toplam Tutar: " FontSize="22" FontWeight="Bold" Foreground="#4CAF50"/>
+                        <TextBlock FontSize="22" FontWeight="Bold" Foreground="#4CAF50">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
+                                    <Binding Path="Cart.DiscountedTotalPrice"/>
+                                    <Binding Path="Cart.Items[0].Product.Currency" FallbackValue="TRY"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!-- Toplam İndirim Tutarı -->
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Toplam İndirim Tutarı: " FontSize="22" FontWeight="Bold" Foreground="#FF9800"/>
+                        <TextBlock FontSize="22" FontWeight="Bold" Foreground="#FF9800">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CurrencyToFormattedPriceConverter}">
+                                    <Binding Path="Cart.TotalDiscount"/>
+                                    <Binding Path="Cart.Items[0].Product.Currency" FallbackValue="TRY"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
         </Border>
     </Grid>

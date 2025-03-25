@@ -16,7 +16,9 @@ namespace JewelryPOS.App.Helpers
 
             string symbol = GetCurrencySymbol(currency);
 
-            return $"{symbol}{price.ToString("N2", CultureInfo.GetCultureInfo("tr-TR"))}";
+            // Fiyatı formatla ve sembolü sağına ekle
+            string formattedPrice = price.ToString("N2", CultureInfo.GetCultureInfo("tr-TR"));
+            return $"{formattedPrice} {symbol}";
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
